@@ -1,5 +1,7 @@
 module up.neuromine {
 	requires javafx.base;
+	requires javafx.controls;
+	requires javafx.fxml;
 	requires transitive javafx.graphics;
 	
 	exports up.neuromine;
