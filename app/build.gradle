@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+    id 'eclipse'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+group 'up.neuromine'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation libs.junit.jupiter
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation libs.guava
+}
+
+java {
+	modularity.inferModulePath.set(true)
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+javafx {
+	version "21"
+	modules = [ 'javafx.controls' ]
+}
+
+application {
+    mainClass = 'up.neuromine.App'
+    mainModule = 'up.neuromine'
+}
