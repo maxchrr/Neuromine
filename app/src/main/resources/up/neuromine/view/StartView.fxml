@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+
+<fx:root 	type="javafx.scene.layout.BorderPane"
+			xmlns="http://javafx.com/javafx"
+			xmlns:fx="http://javafx.com/fxml"
+			maxHeight="-Infinity"
+			maxWidth="-Infinity"
+			stylesheets="@styles.css"
+			styleClass="main-container">
+	<!--  <padding>
+		<Insets top="20" right="20" bottom="20" left="20"/>
+	</padding>-->
+	<top>
+		<HBox styleClass="header-bar">
+			<Button text="Quitter" onAction="#handleQuit" styleClass="action-button" />
+			<Region HBox.hgrow="ALWAYS" />
+			<Button text="Paramètres" styleClass="action-button" />
+		</HBox>
+	</top>
+	<center>
+		<VBox styleClass="menu-body">
+			<Button text="Solo" styleClass="menu-button" />
+			<Button text="Multijoueur" styleClass="menu-button" />
+		</VBox>
+	</center>
+</fx:root>

@@ -3,7 +3,9 @@ module up.neuromine {
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires transitive javafx.graphics;
-	
+
+	opens up.neuromine.view to javafx.fxml;
+
 	exports up.neuromine;
 	exports up.neuromine.model;
 	exports up.neuromine.view;
