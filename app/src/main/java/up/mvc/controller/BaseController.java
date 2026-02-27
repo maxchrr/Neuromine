@@ -3,8 +3,8 @@ package up.mvc.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import up.neuromine.model.BaseModel;
-import up.neuromine.view.BaseView;
+import up.mvc.model.BaseModel;
+import up.mvc.view.BaseView;
 
 public abstract class BaseController {
 	protected final List<BaseController> subControllers = new ArrayList<>();
