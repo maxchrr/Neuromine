@@ -1,6 +1,6 @@
 package up.mvc.view;
 
-public interface BaseView {
+public interface View {
 	
 	public void hide();
 	

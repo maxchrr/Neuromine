@@ -1,6 +1,6 @@
 package up.mvc.model;
 
-public interface BaseModel {
+public interface Model {
 
 	public void run();
 }
