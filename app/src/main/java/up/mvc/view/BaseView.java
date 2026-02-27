@@ -1,4 +1,4 @@
-package up.neuromine.view;
+package up.mvc.view;
 
 public interface BaseView {
 	

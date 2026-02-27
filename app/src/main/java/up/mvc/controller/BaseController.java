@@ -1,4 +1,4 @@
-package up.neuromine.controller;
+package up.mvc.controller;
 
 import java.util.ArrayList;
 import java.util.List;

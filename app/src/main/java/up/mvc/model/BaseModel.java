@@ -1,4 +1,4 @@
-package up.neuromine.model;
+package up.mvc.model;
 
 public interface BaseModel {
 
