@@ -21,3 +21,7 @@ gradle-app.setting
 .settings
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# Editor junk
+.vscode
+.idea
