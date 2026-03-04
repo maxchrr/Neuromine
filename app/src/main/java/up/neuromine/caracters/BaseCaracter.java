@@ -1,5 +1,7 @@
 package up.neuromine.caracters;
 
+import up.neuromine.tiles.Tile;
+
 public abstract class BaseCaracter {
     
     private String name; /*Name of the caracter */
@@ -24,12 +26,12 @@ public abstract class BaseCaracter {
     public abstract void move(/*Direction direction */);
 
     /*Attacks the selected tile */
-    public abstract void attack(/*Tile tile */);
+    public abstract void attack(Tile tile);
 
     /*Uses the special ability of the said caracter */
-    public abstract void speCapacity(/*Tile tile */);
+    public abstract void speCapacity(Tile tile);
 
-     /*Reveals the selected tile */
+    /*Reveals the selected tile */
     public void reveal(Tile tile){
         tile.Reveal();
     };
@@ -48,6 +50,11 @@ public abstract class BaseCaracter {
     public boolean isDead(){
         return health <= 0;
     };
+
+    /*Rotate the caracter clockwise, the selected Tile moves consequently */
+    public void rotate(){
+        /*sets the selected Tile as one of the other adjacant Tile of the caracter (clockwise) */
+    }
 
 
     /*Getters */

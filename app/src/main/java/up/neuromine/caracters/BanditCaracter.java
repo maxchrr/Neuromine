@@ -1,5 +1,7 @@
 package up.neuromine.caracters;
 
+import up.neuromine.tiles.Tile;
+
 public class BanditCaracter extends BaseCaracter{
 
     public BanditCaracter() {
@@ -9,18 +11,19 @@ public class BanditCaracter extends BaseCaracter{
     /*Movements : diagonal or adjacant */
     @Override
     public void move() {
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
+        /*Observable needed */
     }
 
     /*Attack : A leap forward by one or two Tiles dealing 2 damage on the selected Tile */
     @Override
-    public void attack() {
-        throw new UnsupportedOperationException("Unimplemented method 'attack'");
+    public void attack(Tile tile) {
+        reveal(tile); /*setCharacter on the coordonates selected */
+        /*appel a move */
     }
 
     /*Special Capacity : */
     @Override
-    public void speCapacity() {
+    public void speCapacity(Tile tile) {
         throw new UnsupportedOperationException("Unimplemented method 'speCapacity'");
     }
 

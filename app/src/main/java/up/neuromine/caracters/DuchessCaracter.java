@@ -1,5 +1,7 @@
 package up.neuromine.caracters;
 
+import up.neuromine.tiles.Tile;
+
 public class DuchessCaracter extends BaseCaracter {
 
     public DuchessCaracter() {
@@ -9,18 +11,19 @@ public class DuchessCaracter extends BaseCaracter {
     /*Movements : adjacant by one or two tiles */
     @Override
     public void move() {
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
+        /*Observable needed */
     }
 
     /*Attack : A quickslash that affects the front tile by dealing one damage */
     @Override
-    public void attack() {
-        throw new UnsupportedOperationException("Unimplemented method 'attack'");
+    public void attack(Tile tile) {
+        reveal(tile);
+        /*deals damage if there is an enemy */
     }
 
     /*Special Capacity : */
     @Override
-    public void speCapacity() {
+    public void speCapacity(Tile tile) {
         throw new UnsupportedOperationException("Unimplemented method 'speCapacity'");
     }
 
