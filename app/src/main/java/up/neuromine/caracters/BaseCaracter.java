@@ -8,6 +8,7 @@ public abstract class BaseCaracter {
     private int health; /*The amount of damage the caracter can take before dying */
     private int mana; /*The amount of turns before activating the special capacity */
     private int damage; /*The amount of damage the caracter deals */
+    private Tile selectedTile; /*The tile currently selected */
 
     private int posX;
     private int posY;
@@ -82,6 +83,10 @@ public abstract class BaseCaracter {
         return this.damage;
     };
 
+    public Tile getSelectedTile(){
+        return this.selectedTile;
+    };
+
 
     /*Setters */
     public void setPoxX(int posX){
@@ -106,6 +111,10 @@ public abstract class BaseCaracter {
 
     public void setDamage(int damage){
         this.damage = damage;
+    };
+
+    public void setSelectedTile(Tile tile){
+        this.selectedTile = tile;
     };
 
 }

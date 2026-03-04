@@ -18,7 +18,7 @@ public class BanditCaracter extends BaseCaracter{
     @Override
     public void attack(Tile tile) {
         reveal(tile); /*setCharacter on the coordonates selected */
-        /*appel a move */
+        /*call move */
     }
 
     /*Special Capacity : */
