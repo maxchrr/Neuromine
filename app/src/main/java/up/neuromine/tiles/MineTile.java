@@ -1,6 +1,8 @@
 package up.neuromine.tiles;
 
-import java.util.Map;
+
+import up.neuromine.map.Map;
+import up.neuromine.mine.Mine;
 
 public class MineTile extends Tile{
     
@@ -9,6 +11,10 @@ public class MineTile extends Tile{
     public MineTile(Map map , Mine mine){
         super(map);
         this.mine=mine;
+    }
+
+    public Mine getMine(){
+        return this.mine;
     }
 
     @Override
@@ -24,6 +30,7 @@ public class MineTile extends Tile{
             map.addDiscovered();
     }
 
+    @Override
     public void uncovered(){
         if (this.isCovered()){
             this.covered = false;
@@ -33,5 +40,11 @@ public class MineTile extends Tile{
 
     public void subMineCount(Map map){
         map.subDiscovered();
+    }
+
+    @Override
+    public void reveal(){
+        this.revealed = true;
+        getMine().explode();
     }
 }

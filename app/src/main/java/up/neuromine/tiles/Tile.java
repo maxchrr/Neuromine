@@ -1,9 +1,11 @@
 package up.neuromine.tiles;
 
+import up.neuromine.map.Map;
+
 public abstract class Tile {
     private Map map;
-    private Boolean revealed = false;
-    private Boolean covered = false;
+    protected Boolean revealed = false;
+    protected Boolean covered = false;
 
 
     public Tile(Map map){
@@ -14,7 +16,7 @@ public abstract class Tile {
         return this.map;
     }
 
-    public void Reveal(){
+    public void reveal(){
         this.revealed = true;
     }
 
