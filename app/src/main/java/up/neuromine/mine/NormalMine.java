@@ -1,6 +1,6 @@
 package up.neuromine.mine;
 
-import up.neuromine.mine.Mine;
+import up.neuromine.caracters.BaseCaracter;
 
 public class NormalMine extends Mine{
     
@@ -9,8 +9,8 @@ public class NormalMine extends Mine{
     }
 
     @Override
-    public void explode(){
-        //if personnage dans un certain rayon = mort (grace a une méthode kill dans perso ou quoi)
+    public void explode(BaseCaracter cible){
+        cible.takeDamage(20);
     }
 
 }

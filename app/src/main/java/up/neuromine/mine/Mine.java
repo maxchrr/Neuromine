@@ -1,5 +1,7 @@
 package up.neuromine.mine;
 
+import up.neuromine.caracters.BaseCaracter;
+
 public abstract class Mine {
     protected int rayonAction;
 
@@ -11,6 +13,6 @@ public abstract class Mine {
         return this.rayonAction;
     }
 
-    public void explode(){
+    public void explode(BaseCaracter cible){
     }
 }

@@ -1,6 +1,6 @@
 package up.neuromine.map;
 
-import java.util.Arrays;
+import up.neuromine.tiles.Tile;
 
 public class Map {
 
