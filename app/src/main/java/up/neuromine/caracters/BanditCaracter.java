@@ -4,24 +4,23 @@ public class BanditCaracter extends BaseCaracter{
 
     public BanditCaracter() {
         super("Bandit", 3, 1, 2);
-        //TODO Auto-generated constructor stub
     }
 
+    /*Movements : diagonal or adjacant */
     @Override
     public void move() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
 
+    /*Attack : A leap forward by one or two Tiles dealing 2 damage on the selected Tile */
     @Override
     public void attack() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'attack'");
     }
 
+    /*Special Capacity : */
     @Override
     public void speCapacity() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'speCapacity'");
     }
 

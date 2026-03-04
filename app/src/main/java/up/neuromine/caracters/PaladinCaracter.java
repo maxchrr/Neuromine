@@ -6,21 +6,21 @@ public class PaladinCaracter extends BaseCaracter {
         super("Paladin", 5, 2, 1);
     }
 
+    /*Movements : adjacant by one tile */
     @Override
     public void move() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
 
+    /*Attack : A slash that affects the 3 front tiles, 1 damage each */
     @Override
     public void attack() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'attack'");
     }
 
+    /*Special Capacity : */
     @Override
     public void speCapacity() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'speCapacity'");
     }
 
