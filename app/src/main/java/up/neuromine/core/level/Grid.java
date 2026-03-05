@@ -1,19 +1,16 @@
 package up.neuromine.core.level;
 
-import up.neuromine.core.level.cells.Cell;
-import up.neuromine.core.level.cells.EmptyCell;
-import up.neuromine.core.level.cells.MineCell;
-import up.neuromine.core.level.cells.MonsterCell;
+import up.neuromine.core.level.tiles.*;
 
 /**
  * Core logic for the game grid.
- * Responsible for cell storage, bounds checking, and proximity calculations
+ * Responsible for tile storage, bounds checking, and proximity calculations
  * for both mines (radius 1) and monsters (radius 2).
  */
 public class Grid {
 
 	private final int size;
-	private final Cell[][] cells;
+	private final Tile[][] tiles;
 
 	private int nbMines;
 	private int nbDiscovered;
@@ -25,14 +22,14 @@ public class Grid {
 	 */
 	public Grid(int size) {
 		this.size = size;
-		this.cells = new Cell[size][size];
+		this.tiles = new Tile[size][size];
 		this.nbMines = 0;
 		this.nbDiscovered = 0;
 
 		// Default initialization with EmptyCells
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				cells[x][y] = new EmptyCell(this, x, y);
+				tiles[x][y] = new EmptyTile(this, x, y);
 			}
 		}
 	}
@@ -54,19 +51,19 @@ public class Grid {
 	 * 
 	 * @param x X coordinate of the center cell
 	 * @param y Y coordinate of the center cell
-	 * @return Number of MineCells in the 3x3 area around (x,y).
+	 * @return Number of MineTile in the 3x3 area around (x,y).
 	 */
 	public int countMinesAround(int x, int y) {
 		int count = 0;
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				if (i == 0 && j == 0)
-					continue; // Skip the center cell
+					continue; // Skip center
 
 				int nextX = x + i;
 				int nextY = y + j;
 
-				if (isInside(nextX, nextY) && cells[nextX][nextY] instanceof MineCell) {
+				if (isInside(nextX, nextY) && tiles[nextX][nextY] instanceof MineTile) {
 					count++;
 				}
 			}
@@ -77,7 +74,9 @@ public class Grid {
 	/**
 	 * Calculates the number of monsters in a radius of 2.
 	 * 
-	 * @return Number of MonsterCells with living enemies in a 5x5 area.
+	 * @param x X coordinate of the center cell
+	 * @param y Y coordinate of the center cell
+	 * @return Number of MonsterTile with living enemies in a 5x5 area.
 	 */
 	public int countMonstersAround(int x, int y) {
 		int count = 0;
@@ -90,8 +89,8 @@ public class Grid {
 				int nextY = y + j;
 
 				if (isInside(nextX, nextY)) {
-					Cell cell = getCell(nextX, nextY);
-					if (cell instanceof MonsterCell && ((MonsterCell) cell).hasLivingMonster()) {
+					Tile tile = getTile(nextX, nextY);
+					if (tile instanceof MonsterTile && ((MonsterTile) tile).hasLivingMonster()) {
 						count++;
 					}
 				}
@@ -104,13 +103,13 @@ public class Grid {
 		return size;
 	}
 
-	public Cell getCell(int x, int y) {
-		return isInside(x, y) ? cells[x][y] : null;
+	public Tile getTile(int x, int y) {
+		return isInside(x, y) ? tiles[x][y] : null;
 	}
 
-	public void setCell(int x, int y, Cell cell) {
+	public void setTile(int x, int y, Tile tile) {
 		if (isInside(x, y)) {
-			cells[x][y] = cell;
+			tiles[x][y] = tile;
 		}
 	}
 

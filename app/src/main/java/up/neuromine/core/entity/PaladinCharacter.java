@@ -1,6 +1,7 @@
 package up.neuromine.core.entity;
 
-import up.neuromine.core.level.cells.Cell;
+import up.neuromine.core.level.Grid;
+import up.neuromine.core.level.tiles.Tile;
 
 /**
  * Paladin: High HP and Area-of-Effect (AoE) attack.
@@ -17,7 +18,6 @@ public class PaladinCharacter extends Player {
 	 */
 	@Override
 	public void move(int targetX, int targetY) {
-		// Validation logic for distance == 1 would be in the Controller/Engine
 		this.setPosition(targetX, targetY);
 	}
 
@@ -26,24 +26,52 @@ public class PaladinCharacter extends Player {
 	 * Reveals the target tile and its two direct neighbors relative to orientation.
 	 */
 	@Override
-	public void attack(Cell targetCell) {
-		if (targetCell == null)
+	public void attack(Tile target) {
+		if (target == null)
 			return;
-
-		// 1. Reveal the main target
-		targetCell.reveal();
-
-		// 2. The Controller will use the player's orientation (0-3)
-		// to identify and reveal the two side tiles.
-		// Example: If facing North, side tiles are (x-1, y) and (x+1, y).
+		Grid grid = target.getGrid();
+		int x = target.getGridX();
+		int y = target.getGridY();
+		target.reveal();
+		switch (orientation) {
+			case 0:
+				revealIfValid(grid, x, y - 1);
+				revealIfValid(grid, x, y - 2);
+				break;
+			case 1:
+				revealIfValid(grid, x + 1, y);
+				revealIfValid(grid, x + 2, y);
+				break;
+			case 2:
+				revealIfValid(grid, x, y + 1);
+				revealIfValid(grid, x, y + 2);
+				break;
+			case 3:
+				revealIfValid(grid, x - 1, y);
+				revealIfValid(grid, x - 2, y);
+				break;
+			default:
+				System.err.println("Invalid orientation: " + orientation);
+				break;
+		}
 	}
 
 	@Override
-	public void useSpecialCapacity(Cell targetCell) {
+	public void useSpecialCapacity(Tile target) {
 		if (this.mana > 0) {
-			// Special: e.g., Holy Heal (Restore 1 HP)
-			this.hp = Math.min(this.maxHp, this.hp + 1);
+			this.hp++;
 			this.mana--;
+		}
+	}
+
+	/**
+	 * Helper to prevent NullPointerExceptions if the slash hits the edge of the
+	 * map.
+	 */
+	private void revealIfValid(Grid grid, int x, int y) {
+		Tile t = grid.getTile(x, y);
+		if (t != null) {
+			t.reveal();
 		}
 	}
 

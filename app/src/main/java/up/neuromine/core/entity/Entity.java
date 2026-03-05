@@ -8,14 +8,12 @@ public abstract class Entity {
 
 	protected String name;
 	protected int hp;
-	protected int maxHp;
 	protected int x;
 	protected int y;
 
 	public Entity(String name, int hp, int x, int y) {
 		this.name = name;
 		this.hp = hp;
-		this.maxHp = hp;
 		this.x = x;
 		this.y = y;
 	}
@@ -29,25 +27,25 @@ public abstract class Entity {
 		return hp > 0;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public String getName() {
+		return name;
 	}
 
 	public int getHp() {
 		return hp;
 	}
 
-	public String getName() {
-		return name;
+	public int getPosX() {
+		return x;
+	}
+
+	public int getPosY() {
+		return y;
+	}
+
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
 }

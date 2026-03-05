@@ -1,12 +1,12 @@
-package up.neuromine.core.level.cells;
+package up.neuromine.core.level.tiles;
 
 import up.neuromine.core.level.Grid;
 
 /**
- * Abstract representation of a grid cell.
+ * Abstract representation of a grid tile.
  * Handles the visibility state and flag status.
  */
-public abstract class Cell {
+public abstract class Tile {
 
 	protected final Grid grid;
 	protected final int gridX;
@@ -20,14 +20,14 @@ public abstract class Cell {
 	 * @param x    X coordinate in the grid.
 	 * @param y    Y coordinate in the grid.
 	 */
-	public Cell(Grid grid, int x, int y) {
+	public Tile(Grid grid, int x, int y) {
 		this.grid = grid;
 		this.gridX = x;
 		this.gridY = y;
 	}
 
 	/**
-	 * Logic to reveal the cell.
+	 * Logic to reveal the tile.
 	 * Specific behavior (like explosions) is handled in subclasses.
 	 */
 	public void reveal() {
@@ -37,7 +37,7 @@ public abstract class Cell {
 	}
 
 	/**
-	 * Places a flag on the cell to mark a suspected mine.
+	 * Places a flag on the tile to mark a suspected mine.
 	 */
 	public void coverWithFlag() {
 		if (!revealed && !covered) {
@@ -46,7 +46,7 @@ public abstract class Cell {
 	}
 
 	/**
-	 * Removes the flag from the cell.
+	 * Removes the flag from the tile.
 	 */
 	public void uncovered() {
 		if (covered) {

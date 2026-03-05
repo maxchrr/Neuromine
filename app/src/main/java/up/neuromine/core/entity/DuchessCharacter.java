@@ -1,6 +1,7 @@
 package up.neuromine.core.entity;
 
-import up.neuromine.core.level.cells.Cell;
+import up.neuromine.core.level.tiles.MonsterTile;
+import up.neuromine.core.level.tiles.Tile;
 
 /**
  * Duchess: Balanced stats with high precision.
@@ -9,7 +10,6 @@ import up.neuromine.core.level.cells.Cell;
 public class DuchessCharacter extends Player {
 
 	public DuchessCharacter(int x, int y) {
-		// Initializes with the Duchess profile stats
 		super("Duchess", PlayerProfile.DUCHESS, x, y);
 	}
 
@@ -19,7 +19,6 @@ public class DuchessCharacter extends Player {
 	 */
 	@Override
 	public void move(int targetX, int targetY) {
-		// Logic check: (distance <= moveRange)
 		this.setPosition(targetX, targetY);
 	}
 
@@ -28,13 +27,11 @@ public class DuchessCharacter extends Player {
 	 * Precisely reveals and attacks the single tile directly in front.
 	 */
 	@Override
-	public void attack(Cell targetCell) {
-		if (targetCell != null) {
-			// Reveal the tile (standard minesweeper logic)
-			targetCell.reveal();
-
-			// Business logic: If an enemy is present, apply 'this.damage'
-			// This coordination is handled by the GameEngine.
+	public void attack(Tile target) {
+		if (target == null) return;
+		target.reveal();
+		if (target instanceof MonsterTile) {
+			((MonsterTile)target).getEnemy().takeDamage(damage);
 		}
 	}
 
@@ -43,9 +40,8 @@ public class DuchessCharacter extends Player {
 	 * Could reveal all mines in a radius of 2 without triggering them.
 	 */
 	@Override
-	public void useSpecialCapacity(Cell targetCell) {
+	public void useSpecialCapacity(Tile target) {
 		if (this.mana > 0) {
-			// Implementation of the special effect
 			this.mana--;
 		}
 	}

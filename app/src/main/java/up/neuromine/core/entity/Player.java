@@ -1,6 +1,6 @@
 package up.neuromine.core.entity;
 
-import up.neuromine.core.level.cells.Cell;
+import up.neuromine.core.level.tiles.Tile;
 
 /**
  * Represents the user-controlled character.
@@ -25,18 +25,18 @@ public abstract class Player extends Entity {
 	public abstract void move(int targetX, int targetY);
 
 	/** Attack logic (area of effect, range) specific to each class. */
-	public abstract void attack(Cell targetCell);
+	public abstract void attack(Tile target);
 
 	/** Special ability logic using mana. */
-	public abstract void useSpecialCapacity(Cell targetCell);
+	public abstract void useSpecialCapacity(Tile target);
 
 	/** Rotates the player clockwise to change attack direction. */
 	public void rotate() {
-		this.orientation = (this.orientation + 1) % 4;
+		this.orientation = (orientation + 1) % 4;
 	}
 
 	// Common player actions
-	public void flag(Cell cell) {
+	public void flag(Tile cell) {
 		cell.coverWithFlag();
 	}
 

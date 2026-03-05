@@ -1,16 +1,16 @@
-package up.neuromine.core.level.cells;
+package up.neuromine.core.level.tiles;
 
 import up.neuromine.core.level.Grid;
 
 /**
- * A cell that displays the number of surrounding threats.
+ * A tile that displays the number of surrounding threats.
  */
-public class NumberCell extends Cell {
+public class NumberTile extends Tile {
 
 	private int mineCount = 0;
 	private int monsterCount = 0;
 
-	public NumberCell(Grid grid, int x, int y) {
+	public NumberTile(Grid grid, int x, int y) {
 		super(grid, x, y);
 		calculateNumbers(x, y);
 	}
@@ -18,8 +18,8 @@ public class NumberCell extends Cell {
 	/**
 	 * Queries the grid to update local threat counters.
 	 * 
-	 * @param x Current cell X position
-	 * @param y Current cell Y position
+	 * @param x Current tile X position
+	 * @param y Current tile Y position
 	 */
 	public void calculateNumbers(int x, int y) {
 		this.mineCount = grid.countMinesAround(x, y);

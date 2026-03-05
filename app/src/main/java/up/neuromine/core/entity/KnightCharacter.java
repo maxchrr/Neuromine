@@ -1,6 +1,6 @@
 package up.neuromine.core.entity;
 
-import up.neuromine.core.level.cells.Cell;
+import up.neuromine.core.level.tiles.Tile;
 
 /**
  * Knight: High HP, L-shaped movement, and Piercing attack.
@@ -13,23 +13,18 @@ public class KnightCharacter extends Player {
 
 	@Override
 	public void move(int targetX, int targetY) {
-		// Logic check for L-shape move (2+1 or 1+2)
-		// If valid, update position
 		this.setPosition(targetX, targetY);
 	}
 
 	@Override
-	public void attack(Cell targetCell) {
-		// Attack: Front cell (1 damage) + Cell behind (2 damage)
-		// Requires identifying direction via 'orientation'
-		targetCell.reveal();
-		// Additional logic for the second cell in line...
+	public void attack(Tile target) {
+		if (target == null) return;
+		target.reveal();
 	}
 
 	@Override
-	public void useSpecialCapacity(Cell targetCell) {
+	public void useSpecialCapacity(Tile target) {
 		if (mana > 0) {
-			// Knight's special: e.g., Shield (temporary invulnerability)
 			mana--;
 		}
 	}

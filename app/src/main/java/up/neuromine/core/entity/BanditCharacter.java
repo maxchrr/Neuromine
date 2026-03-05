@@ -1,6 +1,6 @@
 package up.neuromine.core.entity;
 
-import up.neuromine.core.level.cells.Cell;
+import up.neuromine.core.level.tiles.Tile;
 
 /**
  * Bandit: Low HP but high mobility.
@@ -25,22 +25,15 @@ public class BanditCharacter extends Player {
 	 * The Bandit moves to the target tile and reveals it.
 	 */
 	@Override
-	public void attack(Cell targetCell) {
-		if (targetCell == null)
-			return;
-
-		// 1. Reveal the destination
-		targetCell.reveal();
-
-		// 2. Teleport the bandit to the new coordinates
-		// This is a "Leap" attack: Move + Reveal
-		this.setPosition(targetCell.getGridX(), targetCell.getGridY());
+	public void attack(Tile target) {
+		if (target == null) return;
+		target.reveal();
+		this.setPosition(target.getGridX(), target.getGridY());
 	}
 
 	@Override
-	public void useSpecialCapacity(Cell targetCell) {
+	public void useSpecialCapacity(Tile target) {
 		if (this.mana > 0) {
-			// Special: e.g., Stealth (cannot be detected by monsters for 1 turn)
 			this.mana--;
 		}
 	}
