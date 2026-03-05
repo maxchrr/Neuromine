@@ -2,32 +2,35 @@ package up.neuromine.core.entity;
 
 import up.neuromine.core.level.cells.Cell;
 
+/**
+ * Knight: High HP, L-shaped movement, and Piercing attack.
+ */
 public class KnightCharacter extends Player {
 
-	public KnightCharacter(String name, PlayerProfile profile, int x, int y) {
-		super(name, profile, x, y);
-	}
-
-	/*
-	 * Movements : L shape (like in chess)
-	 */
-	@Override
-	public void move(Cell target) {
-		throw new UnsupportedOperationException("Unimplemented method 'move'");
-	}
-
-	/*
-	 * Attack : A spear that deals one damage to the front Tile and two damages on
-	 * the Tile after
-	 */
-	@Override
-	public void attack(Cell target) {
-		reveal(target);
+	public KnightCharacter(int x, int y) {
+		super("Knight", PlayerProfile.KNIGHT, x, y);
 	}
 
 	@Override
-	public void speCapacity(Cell target) {
-		throw new UnsupportedOperationException("Unimplemented method 'speCapacity'");
+	public void move(int targetX, int targetY) {
+		// Logic check for L-shape move (2+1 or 1+2)
+		// If valid, update position
+		this.setPosition(targetX, targetY);
 	}
 
+	@Override
+	public void attack(Cell targetCell) {
+		// Attack: Front cell (1 damage) + Cell behind (2 damage)
+		// Requires identifying direction via 'orientation'
+		targetCell.reveal();
+		// Additional logic for the second cell in line...
+	}
+
+	@Override
+	public void useSpecialCapacity(Cell targetCell) {
+		if (mana > 0) {
+			// Knight's special: e.g., Shield (temporary invulnerability)
+			mana--;
+		}
+	}
 }

@@ -13,7 +13,15 @@ app/src/main/java/up/
     │   │   ├── Player.java             # Profils (Aventurier, Sniper...)
     │   │   └── Enemy.java              # Logique des monstres
     │   ├── level/                      # Gestion de la grille et des mines
-    │   │   └── Grid.java               # Logique du terrain : calcul mines (rayon 1) vs monstres (rayon 2)
+    │   ├── Grid.java
+    │   │   ├── cells/
+    │   │   │   ├── Cell.java (abstract)
+    │   │   │   ├── EmptyCell.java
+    │   │   │   ├── MineCell.java
+    │   │   │   └── NumberCell.java
+    │   │   └── mine/
+    │   │       ├── Mine.java (abstract)
+    │   │       └── NormalMine.java
     │   ├── engine/                     # Moteurs de règles
     │   │   ├── GameEngine.java         # Calcul des scores et tours
     │   │   └── EditorEngine.java       # Validation des contraintes de création

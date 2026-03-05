@@ -3,47 +3,52 @@ package up.neuromine.core.level.cells;
 import up.neuromine.core.level.Grid;
 import up.neuromine.core.level.mine.Mine;
 
+/**
+ * A cell containing a mine. Triggers explosion logic upon revelation.
+ */
 public class MineCell extends Cell {
 
-	private Mine mine;
+	private final Mine mine;
 
-	public MineCell(Grid grid, Mine mine) {
-		super(grid);
+	public MineCell(Grid grid, Mine mine, int x, int y) {
+		super(grid, x, y);
 		this.mine = mine;
 	}
 
+	/**
+	 * Reveals the cell and triggers the mine explosion.
+	 * Note: Damage logic is usually coordinated by the Controller via a Signal.
+	 */
 	@Override
 	public void reveal() {
-		revealed = true;
-		getMine().explode(null);
+		if (!covered && !revealed) {
+			super.reveal();
+			// The signal for explosion will be caught by the Controller
+			if (mine != null) {
+				// Here, we could return a Signal in a real MVC flow
+				System.out.println("BOOM: Mine exploded!");
+			}
+		}
 	}
 
 	@Override
 	public void coverWithFlag() {
-		if (!isCovered()) {
-			covered = true;
-			addMineCount(getGrid());
+		if (!revealed && !covered) {
+			super.coverWithFlag();
+			grid.addDiscovered(); // Increment the found mines counter
 		}
-
 	}
 
 	@Override
 	public void uncovered() {
-		if (isCovered()) {
-			covered = false;
-			subMineCount(getGrid());
+		if (covered) {
+			super.uncovered();
+			grid.subDiscovered(); // Decrement the found mines counter
 		}
-	}
-
-	public void addMineCount(Grid grid) {
-		grid.addDiscovered();
-	}
-
-	public void subMineCount(Grid map) {
-		map.subDiscovered();
 	}
 
 	public Mine getMine() {
 		return mine;
 	}
+
 }

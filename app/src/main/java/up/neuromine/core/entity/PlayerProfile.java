@@ -1,13 +1,15 @@
 package up.neuromine.core.entity;
 
 /**
- * Definition of available player classes and their starting stats.
+ * Enumeration of all player classes and their starting statistics.
+ * HP: Health points | Damage: Base attack power | Mana: Ability cost/pool |
+ * Range: Max move distance.
  */
 public enum PlayerProfile {
 	KNIGHT(4, 1, 1, 1),
 	PALADIN(5, 2, 1, 1),
 	DUCHESS(4, 2, 1, 1),
-	BANDIT(3, 1, 2, 1);
+	BANDIT(3, 1, 2, 2);
 
 	private final int baseHp;
 	private final int baseDamage;
@@ -36,5 +38,4 @@ public enum PlayerProfile {
 	public int getMoveRange() {
 		return moveRange;
 	}
-
 }
