@@ -22,7 +22,9 @@ public abstract class Player extends Entity {
 	}
 
 	/** Movement logic specific to each character class. */
-	public abstract void move(int targetX, int targetY);
+	public void move(int targetX, int targetY){
+		this.setPosition(targetX, targetY);
+	};
 
 	/** Attack logic (area of effect, range) specific to each class. */
 	public abstract void attack(Tile target);

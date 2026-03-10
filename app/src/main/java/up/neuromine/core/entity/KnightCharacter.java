@@ -11,10 +11,12 @@ public class KnightCharacter extends Player {
 		super("Knight", PlayerProfile.KNIGHT, x, y);
 	}
 
+	/** 
 	@Override
 	public void move(int targetX, int targetY) {
 		this.setPosition(targetX, targetY);
 	}
+	*/
 
 	@Override
 	public void attack(Tile target) {

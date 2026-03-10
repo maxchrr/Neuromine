@@ -14,11 +14,11 @@ public class BanditCharacter extends Player {
 
 	/**
 	 * Movement: Can move diagonally or adjacently (up to 2 tiles).
-	 */
 	@Override
 	public void move(int targetX, int targetY) {
 		this.setPosition(targetX, targetY);
 	}
+	*/
 
 	/**
 	 * Attack: A leap forward by 1 or 2 tiles.

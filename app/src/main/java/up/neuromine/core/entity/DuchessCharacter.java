@@ -16,11 +16,11 @@ public class DuchessCharacter extends Player {
 	/**
 	 * Movement: Agile movement. Can move to any adjacent or diagonal tile
 	 * within a range of 1 or 2, as per her profile.
-	 */
 	@Override
 	public void move(int targetX, int targetY) {
 		this.setPosition(targetX, targetY);
 	}
+	*/
 
 	/**
 	 * Attack: Quickslash.

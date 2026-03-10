@@ -15,11 +15,11 @@ public class PaladinCharacter extends Player {
 
 	/**
 	 * Movement: Standard adjacent movement (1 tile).
-	 */
 	@Override
 	public void move(int targetX, int targetY) {
 		this.setPosition(targetX, targetY);
 	}
+	*/
 
 	/**
 	 * Attack: A slash affecting 3 front tiles.
