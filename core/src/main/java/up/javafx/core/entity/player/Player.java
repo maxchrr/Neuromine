@@ -1,14 +1,7 @@
-<<<<<<<< HEAD:core/src/main/java/up/javafx/core/entity/player/Player.java
 package up.javafx.core.entity.player;
 
 import up.javafx.core.entity.Entity;
 import up.javafx.core.level.tiles.Tile;
-========
-package up.neuromine.core.entity.player;
-
-import up.neuromine.core.entity.Entity;
-import up.neuromine.core.level.tiles.Tile;
->>>>>>>> refs/remotes/origin/master:app/src/main/java/up/neuromine/core/entity/player/Player.java
 
 /**
  * Represents the user-controlled character.

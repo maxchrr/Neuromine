@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:core/src/main/java/up/javafx/core/entity/player/PlayerProfile.java
 package up.javafx.core.entity.player;
-========
-package up.neuromine.core.entity.player;
->>>>>>>> refs/remotes/origin/master:app/src/main/java/up/neuromine/core/entity/player/PlayerProfile.java
 
 /**
  * Enumeration of all player classes and their starting statistics.

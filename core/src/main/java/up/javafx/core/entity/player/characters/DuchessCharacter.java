@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:core/src/main/java/up/javafx/core/entity/player/characters/DuchessCharacter.java
 package up.javafx.core.entity.player.characters;
-========
-package up.neuromine.core.entity.player;
->>>>>>>> refs/remotes/origin/master:app/src/main/java/up/neuromine/core/entity/player/DuchessCharacter.java
 
 import up.javafx.core.entity.player.Player;
 import up.javafx.core.entity.player.PlayerProfile;
