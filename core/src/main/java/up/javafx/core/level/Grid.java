@@ -1,6 +1,9 @@
 package up.javafx.core.level;
 
-import up.javafx.core.level.tiles.*;
+import up.javafx.core.level.cells.Cell;
+import up.javafx.core.level.cells.EmptyCell;
+import up.javafx.core.level.cells.MineCell;
+import up.javafx.core.level.cells.MonsterCell;
 
 /**
  * Core logic for the game grid.
@@ -10,7 +13,7 @@ import up.javafx.core.level.tiles.*;
 public class Grid {
 
 	private final int size;
-	private final Tile[][] tiles;
+	private final Cell[][] cells;
 
 	private int nbMines;
 	private int nbDiscovered;
@@ -22,14 +25,14 @@ public class Grid {
 	 */
 	public Grid(int size) {
 		this.size = size;
-		this.tiles = new Tile[size][size];
+		this.cells = new Cell[size][size];
 		this.nbMines = 0;
 		this.nbDiscovered = 0;
 
 		// Default initialization with EmptyCells
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				tiles[x][y] = new EmptyTile(this, x, y);
+				cells[x][y] = new EmptyCell(x, y);
 			}
 		}
 	}
@@ -63,8 +66,9 @@ public class Grid {
 				int nextX = x + i;
 				int nextY = y + j;
 
-				if (isInside(nextX, nextY) && tiles[nextX][nextY] instanceof MineTile) {
-					count++;
+				if (isInside(nextX, nextY)) {
+					if (getCell(nextX, nextY) instanceof MineCell)
+						count++;
 				}
 			}
 		}
@@ -89,9 +93,9 @@ public class Grid {
 				int nextY = y + j;
 
 				if (isInside(nextX, nextY)) {
-					Tile tile = getTile(nextX, nextY);
-					if (tile instanceof MonsterTile && ((MonsterTile) tile).hasLivingMonster()) {
-						count++;
+					if (getCell(nextX, nextY) instanceof MonsterCell monsterCell) {
+						if (monsterCell.hasLivingMonster())
+							count++;
 					}
 				}
 			}
@@ -103,13 +107,13 @@ public class Grid {
 		return size;
 	}
 
-	public Tile getTile(int x, int y) {
-		return isInside(x, y) ? tiles[x][y] : null;
+	public Cell getCell(int x, int y) {
+		return isInside(x, y) ? cells[x][y] : null;
 	}
 
-	public void setTile(int x, int y, Tile tile) {
+	public void setTile(int x, int y, Cell cell) {
 		if (isInside(x, y)) {
-			tiles[x][y] = tile;
+			cells[x][y] = cell;
 		}
 	}
 

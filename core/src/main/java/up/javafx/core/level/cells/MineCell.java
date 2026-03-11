@@ -1,17 +1,16 @@
-package up.javafx.core.level.tiles;
+package up.javafx.core.level.cells;
 
-import up.javafx.core.level.Grid;
 import up.javafx.core.level.mine.Mine;
 
 /**
  * A tile containing a mine. Triggers explosion logic upon revelation.
  */
-public class MineTile extends Tile {
+public class MineCell extends Cell {
 
 	private final Mine mine;
 
-	public MineTile(Grid grid, Mine mine, int x, int y) {
-		super(grid, x, y);
+	public MineCell(int x, int y, Mine mine) {
+		super(CellType.MINE, x, y);
 		this.mine = mine;
 	}
 
@@ -20,7 +19,7 @@ public class MineTile extends Tile {
 	 */
 	@Override
 	public void reveal() {
-		if (!covered && !revealed) {
+		if (!flagged && !revealed) {
 			super.reveal();
 			if (mine != null) {
 				System.out.println("BOOM: Mine exploded!");
@@ -29,16 +28,16 @@ public class MineTile extends Tile {
 	}
 
 	@Override
-	public void coverWithFlag() {
-		if (!revealed && !covered) {
-			super.coverWithFlag();
+	public void toggleFlag() {
+		if (!revealed && !flagged) {
+			super.toggleFlag();
 			grid.addDiscovered();
 		}
 	}
 
 	@Override
 	public void uncovered() {
-		if (covered) {
+		if (flagged) {
 			super.uncovered();
 			grid.subDiscovered();
 		}

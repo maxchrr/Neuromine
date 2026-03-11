@@ -1,24 +1,22 @@
-package up.javafx.core.level.tiles;
+package up.javafx.core.level.cells;
 
 import up.javafx.core.entity.enemy.Enemy;
-import up.javafx.core.level.Grid;
 
 /**
  * A tile containing a monster.
  * Monsters are detected at radius 2 and can be fought by the player.
  */
-public class MonsterTile extends Tile {
+public class MonsterCell extends Cell {
 
 	private final Enemy enemy;
 
 	/**
-	 * @param grid  The parent grid.
 	 * @param enemy The monster assigned to this tile.
 	 * @param x     X coordinate.
 	 * @param y     Y coordinate.
 	 */
-	public MonsterTile(Grid grid, Enemy enemy, int x, int y) {
-		super(grid, x, y);
+	public MonsterCell(int x, int y, Enemy enemy) {
+		super(CellType.MONSTER, x, y);
 		this.enemy = enemy;
 	}
 
@@ -28,7 +26,7 @@ public class MonsterTile extends Tile {
 	 */
 	@Override
 	public void reveal() {
-		if (!covered && !revealed) {
+		if (!flagged && !revealed) {
 			super.reveal();
 			if (enemy != null && enemy.isAlive()) {
 				System.out.println("A wild " + enemy.getName() + " appears!");
@@ -41,9 +39,9 @@ public class MonsterTile extends Tile {
 	 * just like with mines.
 	 */
 	@Override
-	public void coverWithFlag() {
-		if (!revealed && !covered) {
-			super.coverWithFlag();
+	public void toggleFlag() {
+		if (!revealed && !flagged) {
+			super.toggleFlag();
 		}
 	}
 
