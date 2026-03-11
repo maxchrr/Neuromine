@@ -1,15 +1,23 @@
 package up.javafx.core.level.cells;
 
+import up.javafx.core.entity.player.Player;
+import up.javafx.core.level.Position;
+
 /**
- * A tile that displays the number of surrounding threats.
+ * A cell that shows the number of threats (mines and monsters) around it.
  */
 public class NumberCell extends Cell {
 
 	private int mineCount = 0;
 	private int monsterCount = 0;
 
-	public NumberCell(int x, int y) {
-		super(CellType.NUMBER, x, y);
+	public NumberCell(Position position) {
+		super(position);
+	}
+
+	@Override
+	public void onEnter(Player player) {
+		reveal();
 	}
 
 	public void setThreatCount(int mines, int monsters) {
@@ -25,4 +33,12 @@ public class NumberCell extends Cell {
 		return monsterCount;
 	}
 
+	public int totalThreats() {
+		return mineCount + monsterCount;
+	}
+
+	@Override
+	public CellType getType() {
+		return CellType.NUMBER;
+	}
 }

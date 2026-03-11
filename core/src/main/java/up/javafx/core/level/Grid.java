@@ -1,73 +1,76 @@
 package up.javafx.core.level;
 
-import up.javafx.core.level.cells.Cell;
-import up.javafx.core.level.cells.EmptyCell;
-import up.javafx.core.level.cells.MineCell;
-import up.javafx.core.level.cells.MonsterCell;
+import up.javafx.core.entity.enemy.Enemy;
+import up.javafx.core.entity.enemy.GoblinEnemy;
+import up.javafx.core.level.cells.*;
+import up.javafx.core.level.mine.Mine;
+import up.javafx.core.level.mine.NormalMine;
+
+import java.util.Random;
 
 /**
  * Core logic for the game grid.
- * Responsible for tile storage, bounds checking, and proximity calculations
- * for both mines (radius 1) and monsters (radius 2).
+ * Stores cells, calculates threats, and provides utility methods for the
+ * player.
  */
 public class Grid {
 
-	private final int size;
+	private final int rows;
+	private final int cols;
 	private final Cell[][] cells;
 
 	private int nbMines;
 	private int nbDiscovered;
 
-	/**
-	 * Initializes an empty grid of a given size.
-	 * 
-	 * @param size The width and height of the square grid.
-	 */
-	public Grid(int size) {
-		this.size = size;
-		this.cells = new Cell[size][size];
+	private final Random random = new Random();
+
+	public Grid(int rows, int cols) {
+		this.rows = rows;
+		this.cols = cols;
+		this.cells = new Cell[rows][cols];
 		this.nbMines = 0;
 		this.nbDiscovered = 0;
 
-		// Default initialization with EmptyCells
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				cells[x][y] = new EmptyCell(x, y);
+		// Initialize with empty cells
+		for (int x = 0; x < rows; x++) {
+			for (int y = 0; y < cols; y++) {
+				cells[x][y] = new EmptyCell(new Position(x, y));
 			}
 		}
 	}
 
-	/**
-	 * Checks if the given coordinates are within the grid boundaries.
-	 * 
-	 * @param x X coordinate
-	 * @param y Y coordinate
-	 * @return true if coordinates are valid.
-	 */
-	public boolean isInside(int x, int y) {
-		return x >= 0 && x < size && y >= 0 && y < size;
+	// -------------------------
+	// Cell retrieval / placement
+	// -------------------------
+
+	public boolean isInside(int row, int col) {
+		return row >= 0 && row < rows && col >= 0 && col < cols;
 	}
 
+	public Cell getCell(int row, int col) {
+		return isInside(row, col) ? cells[row][col] : null;
+	}
+
+	public void setCell(int row, int col, Cell cell) {
+		if (isInside(row, col))
+			cells[row][col] = cell;
+	}
+
+	// -------------------------
+	// Threat counting
+	// -------------------------
+
 	/**
-	 * Calculates the number of mines in a radius of 1.
-	 * Standard Minesweeper logic.
-	 * 
-	 * @param x X coordinate of the center cell
-	 * @param y Y coordinate of the center cell
-	 * @return Number of MineTile in the 3x3 area around (x,y).
+	 * Counts the number of mines around a given cell (radius = 1).
 	 */
-	public int countMinesAround(int x, int y) {
+	public int countMinesAround(int row, int col) {
 		int count = 0;
-		for (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				if (i == 0 && j == 0)
-					continue; // Skip center
-
-				int nextX = x + i;
-				int nextY = y + j;
-
-				if (isInside(nextX, nextY)) {
-					if (getCell(nextX, nextY) instanceof MineCell)
+		for (int dr = -1; dr <= 1; dr++) {
+			for (int dc = -1; dc <= 1; dc++) {
+				int nx = row + dr;
+				int ny = col + dc;
+				if ((dr != 0 || dc != 0) && isInside(nx, ny)) {
+					if (getCell(nx, ny) instanceof MineCell)
 						count++;
 				}
 			}
@@ -76,24 +79,16 @@ public class Grid {
 	}
 
 	/**
-	 * Calculates the number of monsters in a radius of 2.
-	 * 
-	 * @param x X coordinate of the center cell
-	 * @param y Y coordinate of the center cell
-	 * @return Number of MonsterTile with living enemies in a 5x5 area.
+	 * Counts the number of monsters around a given cell (radius = 2).
 	 */
-	public int countMonstersAround(int x, int y) {
+	public int countMonstersAround(int row, int col) {
 		int count = 0;
-		for (int i = -2; i <= 2; i++) {
-			for (int j = -2; j <= 2; j++) {
-				if (i == 0 && j == 0)
-					continue; // Skip center
-
-				int nextX = x + i;
-				int nextY = y + j;
-
-				if (isInside(nextX, nextY)) {
-					if (getCell(nextX, nextY) instanceof MonsterCell monsterCell) {
+		for (int dr = -2; dr <= 2; dr++) {
+			for (int dc = -2; dc <= 2; dc++) {
+				int nx = row + dr;
+				int ny = col + dc;
+				if ((dr != 0 || dc != 0) && isInside(nx, ny)) {
+					if (getCell(nx, ny) instanceof MonsterCell monsterCell) {
 						if (monsterCell.hasLivingMonster())
 							count++;
 					}
@@ -103,19 +98,62 @@ public class Grid {
 		return count;
 	}
 
-	public int getSize() {
-		return size;
-	}
+	// -------------------------
+	// Grid generation
+	// -------------------------
 
-	public Cell getCell(int x, int y) {
-		return isInside(x, y) ? cells[x][y] : null;
-	}
-
-	public void setTile(int x, int y, Cell cell) {
-		if (isInside(x, y)) {
-			cells[x][y] = cell;
+	/**
+	 * Randomly places a given number of mines on the grid.
+	 */
+	public void placeMines(int count) {
+		int placed = 0;
+		while (placed < count) {
+			int r = random.nextInt(rows);
+			int c = random.nextInt(cols);
+			if (!(cells[r][c] instanceof MineCell)) {
+				Mine mine = new NormalMine(1);
+				cells[r][c] = new MineCell(new Position(r, c), mine);
+				nbMines++;
+				placed++;
+			}
 		}
 	}
+
+	/**
+	 * Randomly places monsters on the grid.
+	 */
+	public void placeMonsters(int count, Enemy prototype) {
+		int placed = 0;
+		while (placed < count) {
+			int r = random.nextInt(rows);
+			int c = random.nextInt(cols);
+			if (cells[r][c] instanceof EmptyCell) {
+				Enemy enemy = new GoblinEnemy();
+				cells[r][c] = new MonsterCell(new Position(r, c), enemy);
+				placed++;
+			}
+		}
+	}
+
+	/**
+	 * Computes the NumberCell values for all non-mine, non-monster cells.
+	 */
+	public void computeNumberCells() {
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				Cell cell = cells[r][c];
+				if (cell instanceof EmptyCell) {
+					NumberCell numberCell = new NumberCell(cell.getPosition());
+					numberCell.setThreatCount(countMinesAround(r, c), countMonstersAround(r, c));
+					cells[r][c] = numberCell;
+				}
+			}
+		}
+	}
+
+	// -------------------------
+	// Counters
+	// -------------------------
 
 	public int getNbMines() {
 		return nbMines;
@@ -123,14 +161,6 @@ public class Grid {
 
 	public int getNbDiscovered() {
 		return nbDiscovered;
-	}
-
-	public void addMine() {
-		nbMines++;
-	}
-
-	public void subMine() {
-		nbMines--;
 	}
 
 	public void addDiscovered() {
@@ -141,4 +171,11 @@ public class Grid {
 		nbDiscovered--;
 	}
 
+	public int getRows() {
+		return rows;
+	}
+
+	public int getCols() {
+		return cols;
+	}
 }

@@ -1,50 +1,37 @@
 package up.javafx.core.level.cells;
 
+import up.javafx.core.entity.player.Player;
+import up.javafx.core.level.Position;
 import up.javafx.core.level.mine.Mine;
 
 /**
- * A tile containing a mine. Triggers explosion logic upon revelation.
+ * A cell containing a mine.
+ * Triggers the mine logic when entered by the player.
  */
 public class MineCell extends Cell {
 
 	private final Mine mine;
 
-	public MineCell(int x, int y, Mine mine) {
-		super(CellType.MINE, x, y);
+	public MineCell(Position position, Mine mine) {
+		super(position);
 		this.mine = mine;
-	}
-
-	/**
-	 * Reveals the tile and triggers the mine explosion.
-	 */
-	@Override
-	public void reveal() {
-		if (!flagged && !revealed) {
-			super.reveal();
-			if (mine != null) {
-				System.out.println("BOOM: Mine exploded!");
-			}
-		}
+		if (mine != null)
+			mine.setCell(this);
 	}
 
 	@Override
-	public void toggleFlag() {
-		if (!revealed && !flagged) {
-			super.toggleFlag();
-			grid.addDiscovered();
-		}
+	public void onEnter(Player player) {
+		reveal();
+		if (mine != null && mine.isActive())
+			mine.trigger(player);
 	}
 
 	@Override
-	public void uncovered() {
-		if (flagged) {
-			super.uncovered();
-			grid.subDiscovered();
-		}
+	public CellType getType() {
+		return CellType.MINE;
 	}
 
 	public Mine getMine() {
 		return mine;
 	}
-
 }
