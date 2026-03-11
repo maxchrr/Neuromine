@@ -1,41 +1,79 @@
 package up.javafx.core.entity.player;
 
-/**
- * Enumeration of all player classes and their starting statistics.
- * HP: Health points | Damage: Base attack power | Mana: Ability cost/pool |
- * Range: Max move distance.
- */
-public enum PlayerProfile {
-	KNIGHT(4, 1, 1, 1),
-	PALADIN(5, 2, 1, 1),
-	DUCHESS(4, 2, 1, 1),
-	BANDIT(3, 1, 2, 2);
+import java.util.HashSet;
+import java.util.Set;
 
-	private final int baseHp;
-	private final int baseDamage;
-	private final int baseMana;
-	private final int moveRange;
+import up.javafx.core.entity.player.characters.CharacterType;
 
-	PlayerProfile(int hp, int damage, int mana, int range) {
-		this.baseHp = hp;
-		this.baseDamage = damage;
-		this.baseMana = mana;
-		this.moveRange = range;
+public class PlayerProfile {
+
+	private String name;
+
+	private int level;
+	private int xp;
+
+	private int gamesPlayed;
+	private int wins;
+
+	private Set<CharacterType> unlockedCharacters;
+
+	public PlayerProfile(String name) {
+		this.name = name;
+		this.level = 1;
+		this.xp = 0;
+		this.gamesPlayed = 0;
+		this.wins = 0;
+		this.unlockedCharacters = new HashSet<>();
 	}
 
-	public int getBaseHp() {
-		return baseHp;
+	public void addExperience(int xp) {
+		xp += xp;
+		while (xp >= level * 100) {
+			xp -= level * 100;
+			levelUp();
+		}
 	}
 
-	public int getBaseDamage() {
-		return baseDamage;
+	private void levelUp() {
+		level++;
+		System.out.println(name + " reached level " + level + "!");
 	}
 
-	public int getBaseMana() {
-		return baseMana;
+	public void addGamePlayed(boolean win) {
+		gamesPlayed++;
+		if (win)
+			wins++;
 	}
 
-	public int getMoveRange() {
-		return moveRange;
+	public void unlockCharacter(CharacterType type) {
+		unlockedCharacters.add(type);
+	}
+
+	public boolean isCharacterUnlocked(CharacterType type) {
+		return unlockedCharacters.contains(type);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public int getXp() {
+		return xp;
+	}
+
+	public int getGamesPlayed() {
+		return gamesPlayed;
+	}
+
+	public int getWins() {
+		return wins;
+	}
+
+	public Set<CharacterType> getUnlockedCharacters() {
+		return unlockedCharacters;
 	}
 }

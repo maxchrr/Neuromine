@@ -1,53 +1,28 @@
 package up.javafx.core.entity.player;
 
 import up.javafx.core.entity.Entity;
-import up.javafx.core.level.tiles.Tile;
+import up.javafx.core.entity.player.characters.PlayerCharacter;
 
-/**
- * Represents the user-controlled character.
- * Uses the PlayerProfile for initial stats and defines combat/movement
- * contracts.
- */
-public abstract class Player extends Entity {
+public class Player extends Entity {
 
-	protected final PlayerProfile profile;
-	protected int mana;
-	protected int damage;
-	protected int orientation = 0; // 0: North, 1: East, 2: South, 3: West
+	private final PlayerProfile profile;
+	private final PlayerCharacter character;
 
-	public Player(String name, PlayerProfile profile, int x, int y) {
-		super(name, profile.getBaseHp(), x, y);
+	public Player(PlayerProfile profile, PlayerCharacter character) {
+		super(character.getBaseHp());
 		this.profile = profile;
-		this.mana = profile.getBaseMana();
-		this.damage = profile.getBaseDamage();
+		this.character = character;
 	}
 
-	/** Movement logic specific to each character class. */
-	public void move(int targetX, int targetY){
-		this.setPosition(targetX, targetY);
-	};
-
-	/** Attack logic (area of effect, range) specific to each class. */
-	public abstract void attack(Tile target);
-
-	/** Special ability logic using mana. */
-	public abstract void useSpecialCapacity(Tile target);
-
-	/** Rotates the player clockwise to change attack direction. */
-	public void rotate() {
-		this.orientation = (orientation + 1) % 4;
+	public void heal(int amount) {
+		hp += amount;
 	}
 
-	// Common player actions
-	public void flag(Tile cell) {
-		cell.coverWithFlag();
+	public PlayerProfile getProfile() {
+		return profile;
 	}
 
-	public int getMana() {
-		return mana;
-	}
-
-	public int getDamage() {
-		return damage;
+	public PlayerCharacter getCharacter() {
+		return character;
 	}
 }

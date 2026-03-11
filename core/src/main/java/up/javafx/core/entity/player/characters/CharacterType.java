@@ -1,6 +1,7 @@
 package up.javafx.core.entity.player.characters;
 
 public enum CharacterType {
+
 	BANDIT(3,1,2),
 	DUCHESS(4,2,1),
 	KNIGHT(4,1,1),
@@ -16,15 +17,15 @@ public enum CharacterType {
 		this.mana = mana;
 	}
 
-	public int getBaseHp() {
+	protected int getBaseHp() {
 		return baseHp;
 	}
 
-	public int getAttack() {
+	protected int getAttack() {
 		return attack;
 	}
 
-	public int getMana() {
+	protected int getMana() {
 		return mana;
 	}
 }

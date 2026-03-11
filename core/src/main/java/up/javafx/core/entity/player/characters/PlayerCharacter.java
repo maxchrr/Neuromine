@@ -11,4 +11,17 @@ public abstract class PlayerCharacter {
 	public CharacterType getType() {
 		return type;
 	}
+
+	public int getBaseHp() {
+		return type.getBaseHp();
+	}
+
+	public int getAttack() {
+		return type.getAttack();
+	}
+
+	public int getMana() {
+		return type.getMana();
+	}
+
 }
