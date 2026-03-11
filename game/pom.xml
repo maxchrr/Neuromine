@@ -20,6 +20,10 @@
             <artifactId>mvc</artifactId>
         </dependency>
         <dependency>
+            <groupId>up.javafx</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
         </dependency>
