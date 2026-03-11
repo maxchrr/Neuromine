@@ -1,7 +1,4 @@
-package up.javafx.mvc.controller;
-
-import up.javafx.mvc.model.Model;
-import up.javafx.mvc.view.View;
+package up.javafx.mvc;
 
 public abstract class Controller<M extends Model, V extends View> {
 

@@ -1,4 +1,4 @@
-package up.javafx.mvc.model;
+package up.javafx.mvc;
 
 public abstract class Model {
 }

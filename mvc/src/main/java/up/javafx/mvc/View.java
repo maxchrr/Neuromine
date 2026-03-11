@@ -1,4 +1,4 @@
-package up.javafx.mvc.view;
+package up.javafx.mvc;
 
 public interface View {
 
