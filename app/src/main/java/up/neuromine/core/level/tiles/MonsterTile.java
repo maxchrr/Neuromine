@@ -1,7 +1,7 @@
 package up.neuromine.core.level.tiles;
 
+import up.neuromine.core.entity.enemy.Enemy;
 import up.neuromine.core.level.Grid;
-import up.neuromine.core.entity.Enemy;
 
 /**
  * A tile containing a monster.

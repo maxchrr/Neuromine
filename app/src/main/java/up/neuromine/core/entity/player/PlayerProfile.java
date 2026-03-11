@@ -1,4 +1,4 @@
-package up.neuromine.core.entity;
+package up.neuromine.core.entity.player;
 
 /**
  * Enumeration of all player classes and their starting statistics.

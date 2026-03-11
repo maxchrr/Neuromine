@@ -1,4 +1,6 @@
-package up.neuromine.core.entity;
+package up.neuromine.core.entity.enemy;
+
+import up.neuromine.core.entity.Entity;
 
 /**
  * Represents a monster on the grid.

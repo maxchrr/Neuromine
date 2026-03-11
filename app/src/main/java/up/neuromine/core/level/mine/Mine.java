@@ -1,6 +1,6 @@
 package up.neuromine.core.level.mine;
 
-import up.neuromine.core.entity.Player;
+import up.neuromine.core.entity.player.Player;
 
 public abstract class Mine {
 

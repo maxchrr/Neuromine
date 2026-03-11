@@ -1,4 +1,4 @@
-package up.neuromine.core.entity;
+package up.neuromine.core.entity.player;
 
 import up.neuromine.core.level.Grid;
 import up.neuromine.core.level.tiles.Tile;
