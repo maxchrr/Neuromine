@@ -143,9 +143,14 @@ public class Grid {
 			for (int c = 0; c < cols; c++) {
 				Cell cell = cells[r][c];
 				if (cell instanceof EmptyCell) {
-					NumberCell numberCell = new NumberCell(cell.getPosition());
-					numberCell.setThreatCount(countMinesAround(r, c), countMonstersAround(r, c));
-					cells[r][c] = numberCell;
+					int mines = countMinesAround(r, c);
+					int monsters = countMonstersAround(r, c);
+
+					if (mines + monsters > 0) {
+						NumberCell numberCell = new NumberCell(cell.getPosition());
+						numberCell.setThreatCount(mines, monsters);
+						cells[r][c] = numberCell;
+					}
 				}
 			}
 		}
