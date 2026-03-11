@@ -1,7 +1,12 @@
 package up.javafx.core.level.tiles;
 
+<<<<<<< HEAD:core/src/main/java/up/javafx/core/level/tiles/MonsterTile.java
 import up.javafx.core.entity.enemy.Enemy;
 import up.javafx.core.level.Grid;
+=======
+import up.neuromine.core.entity.enemy.Enemy;
+import up.neuromine.core.level.Grid;
+>>>>>>> refs/remotes/origin/master:app/src/main/java/up/neuromine/core/level/tiles/MonsterTile.java
 
 /**
  * A tile containing a monster.
