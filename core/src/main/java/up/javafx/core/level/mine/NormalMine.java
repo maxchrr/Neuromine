@@ -39,4 +39,7 @@ public class NormalMine implements Mine {
 		return cell;
 	}
 
+	public int getDamage() {
+		return damage;
+	}
 }

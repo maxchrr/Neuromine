@@ -8,11 +8,11 @@ import up.javafx.core.level.Position;
  * A cell containing a monster.
  * Revealing this cell may trigger a combat encounter.
  */
-public class MonsterCell extends Cell {
+public class EnemyCell extends Cell {
 
 	private final Enemy enemy;
 
-	public MonsterCell(Position position, Enemy enemy) {
+	public EnemyCell(Position position, Enemy enemy) {
 		super(position);
 		this.enemy = enemy;
 	}

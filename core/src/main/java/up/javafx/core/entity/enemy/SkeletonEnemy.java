@@ -1,16 +1,10 @@
 package up.javafx.core.entity.enemy;
 
-import up.javafx.core.entity.player.Player;
+import up.javafx.core.level.Position;
 
 public class SkeletonEnemy extends Enemy {
 
-	public SkeletonEnemy() {
-		super(EnemyType.SKELETON);
-	}
-
-	@Override
-	public void attack(Player player) {
-		System.out.println("Skeleton shoots an arrow!");
-		player.takeDamage(getAttack());
+	public SkeletonEnemy(Position pos) {
+		super(EnemyType.SKELETON, pos);
 	}
 }
