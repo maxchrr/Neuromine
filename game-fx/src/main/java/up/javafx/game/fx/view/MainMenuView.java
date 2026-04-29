@@ -6,8 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import up.javafx.mvc.View;
 
-public class MainMenuView extends VBox {
+public class MainMenuView extends VBox implements View {
 
     private final Button btnPlay;
     private final Button btnSettings;
@@ -16,11 +17,9 @@ public class MainMenuView extends VBox {
         setSpacing(20);
         setAlignment(Pos.CENTER);
 
-        // Le titre du jeu
         Label title = new Label("NEUROMINE");
         title.setFont(Font.font("System", FontWeight.BOLD, 36));
 
-        // Les boutons
         this.btnPlay = new Button("Play");
         this.btnPlay.setPrefWidth(150);
 
@@ -30,6 +29,11 @@ public class MainMenuView extends VBox {
         getChildren().addAll(title, btnPlay, btnSettings);
     }
 
-    public Button getBtnPlay() { return btnPlay; }
-    public Button getBtnSettings() { return btnSettings; }
+    public Button getBtnPlay() {
+        return btnPlay;
+    }
+
+    public Button getBtnSettings() {
+        return btnSettings;
+    }
 }

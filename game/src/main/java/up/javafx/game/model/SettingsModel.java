@@ -1,4 +1,4 @@
-package up.javafx.game.fx.view;
+package up.javafx.game.model;
 
 import javafx.beans.property.*;
 import up.javafx.mvc.Model;

@@ -12,8 +12,8 @@ public class GameFxView extends VBox implements View {
 
     private final Label     statusLabel = new Label("Chargement…");
     private final GridPane  gridPane    = new GridPane();
-    
-    private BiConsumer<Integer, Integer> onFlagAction = (c, r) -> {}; 
+
+    private BiConsumer<Integer, Integer> onFlagAction = (c, r) -> {};
 
     public GameFxView() {
         setSpacing(4);
@@ -29,7 +29,7 @@ public class GameFxView extends VBox implements View {
                 s.playerHp(), s.playerMaxHp(), s.score(), s.state()));
         gridPane.getChildren().clear();
         var grid = s.grid();
-        
+
         for (int r = 0; r < grid.getRows(); r++) {
             for (int c = 0; c < grid.getCols(); c++) {
                 boolean isPlayer = s.playerPosition().x() == c && s.playerPosition().y() == r;
