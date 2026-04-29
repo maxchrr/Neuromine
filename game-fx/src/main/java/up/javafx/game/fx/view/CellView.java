@@ -62,13 +62,20 @@ public class CellView extends StackPane {
                 getChildren().add(hbox);
                 
             } else {
-                // Autres types (MINE, MONSTER, etc.)
                 Text content = new Text(switch (cell.getType()) {
                     case MINE    -> "✱";
-                    case MONSTER -> "M";
+                    case MONSTER -> {
+                        EnemyCell ec = (EnemyCell) cell;
+                        yield ec.getEnemy().isAlive() ? "M" : "Dead"; 
+                    }
                     case WALL    -> "▪";
                     default      -> "";
                 });
+                
+                if (cell.getType() == CellType.MONSTER && !((EnemyCell) cell).getEnemy().isAlive()) {
+                    content.setFill(Color.DARKGRAY);
+                }
+                
                 getChildren().add(content);
             }
         }

@@ -1,6 +1,7 @@
 package up.javafx.core.engine;
 
 import up.javafx.core.engine.systems.*;
+import up.javafx.core.entity.enemy.Enemy;
 import up.javafx.core.entity.player.Player;
 import up.javafx.core.level.Direction;
 import up.javafx.core.level.Grid;
@@ -31,13 +32,21 @@ public class GameEngine {
     private void resolveCell() {
         Position pos  = player.getPosition();
         Cell cell = grid.getCell(pos.y(), pos.x());
+
         if (cell.isFlagged()) {
             return;
         }
+
         cell.reveal();
         switch (cell.getType()) {
             case MINE    -> mineSystem.trigger(player, (MineCell) cell);
-            case MONSTER -> combatSystem.fight(player, ((EnemyCell) cell).getEnemy());
+            case MONSTER -> {
+                Enemy enemy = ((EnemyCell) cell).getEnemy();
+                
+                if (enemy.isAlive()) {
+                    player.takeDamage(enemy.getAttack());
+                }
+            }
             case EMPTY   -> revealSystem.reveal(grid, pos.y(), pos.x());
             default      -> {}
         }

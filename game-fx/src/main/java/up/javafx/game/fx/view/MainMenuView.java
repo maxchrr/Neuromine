@@ -1,0 +1,35 @@
+package up.javafx.game.fx.view;
+
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
+public class MainMenuView extends VBox {
+
+    private final Button btnPlay;
+    private final Button btnSettings;
+
+    public MainMenuView() {
+        setSpacing(20);
+        setAlignment(Pos.CENTER);
+
+        // Le titre du jeu
+        Label title = new Label("NEUROMINE");
+        title.setFont(Font.font("System", FontWeight.BOLD, 36));
+
+        // Les boutons
+        this.btnPlay = new Button("Play");
+        this.btnPlay.setPrefWidth(150);
+
+        this.btnSettings = new Button("Settings");
+        this.btnSettings.setPrefWidth(150);
+
+        getChildren().addAll(title, btnPlay, btnSettings);
+    }
+
+    public Button getBtnPlay() { return btnPlay; }
+    public Button getBtnSettings() { return btnSettings; }
+}
