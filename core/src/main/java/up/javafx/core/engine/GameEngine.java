@@ -44,6 +44,19 @@ public class GameEngine {
         if (!player.isAlive()) state = GameState.GAME_OVER;
     }
 
+    public void attackCell(int x, int y) {
+        if (state != GameState.RUNNING || !grid.isInside(y, x)) return;
+        
+        Cell cell = grid.getCell(y, x);
+        
+        if (cell instanceof EnemyCell enemyCell) {
+            combatSystem.fight(player, enemyCell.getEnemy());
+            cell.reveal();
+
+            if (!player.isAlive()) state = GameState.GAME_OVER; 
+        } 
+    }
+
     public Grid      getGrid()   { return grid; }
     public Player    getPlayer() { return player; }
     public GameState getState()  { return state; }

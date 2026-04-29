@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class AppText {
 
     public static void main(String[] args) {
-        Grid grid = LevelGenerator.generateLevel(10, 15);
+        Grid grid = LevelGenerator.generateLevel(10, 15, 5);
         Player player = new Player(
                 new PlayerProfile("Player1"),
                 CharacterFactory.create(CharacterType.BANDIT),

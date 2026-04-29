@@ -37,4 +37,5 @@ public class GameModel extends Model {
     public void addScore(int points) { score += points; }
     public int  getScore()           { return score; }
     public boolean isRunning()       { return engine.getState() == GameState.RUNNING; }
+    public void attackCell(int x, int y) { engine.attackCell(x, y); }
 }

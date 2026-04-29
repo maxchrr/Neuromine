@@ -28,6 +28,11 @@ public class GameController extends Controller<GameModel, View> {
         onUpdate.run();
     }
 
+    public void handleAttack(int col, int row) {
+        model.attackCell(col, row);
+        onUpdate.run();
+    }
+
     public GameSnapshot snapshot()        { return model.snapshot(); }
     public boolean      isRunning()       { return model.isRunning(); }
 }

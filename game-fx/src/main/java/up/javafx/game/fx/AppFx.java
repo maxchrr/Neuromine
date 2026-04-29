@@ -19,7 +19,7 @@ public class AppFx extends Application {
 
     @Override
     public void start(Stage stage) {
-        Grid grid = LevelGenerator.generateLevel(10, 15);
+        Grid grid = LevelGenerator.generateLevel(10, 15, 5);
         Player player = new Player(
                 new PlayerProfile("Player1"),
                 CharacterFactory.create(CharacterType.BANDIT),
@@ -54,6 +54,14 @@ public class AppFx extends Application {
                     case DOWN, S  -> controller.handleFlag(px, py + 1);
                     case LEFT, Q  -> controller.handleFlag(px - 1, py);
                     case RIGHT, D -> controller.handleFlag(px + 1, py);
+                    default -> {}
+                }
+            } else if (e.isShiftDown()) {
+                switch (e.getCode()) {
+                    case UP, Z    -> controller.handleAttack(px, py - 1);
+                    case DOWN, S  -> controller.handleAttack(px, py + 1);
+                    case LEFT, Q  -> controller.handleAttack(px - 1, py);
+                    case RIGHT, D -> controller.handleAttack(px + 1, py);
                     default -> {}
                 }
             } else {
