@@ -31,6 +31,9 @@ public class GameEngine {
     private void resolveCell() {
         Position pos  = player.getPosition();
         Cell cell = grid.getCell(pos.y(), pos.x());
+        if (cell.isFlagged()) {
+            return;
+        }
         cell.reveal();
         switch (cell.getType()) {
             case MINE    -> mineSystem.trigger(player, (MineCell) cell);

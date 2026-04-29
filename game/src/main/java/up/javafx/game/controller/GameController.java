@@ -24,7 +24,7 @@ public class GameController extends Controller<GameModel, View> {
     }
 
     public void handleFlag(int col, int row) {
-        // TODO: toggle flag on cell at (col, row)
+        model.toggleFlag(col, row);
         onUpdate.run();
     }
 

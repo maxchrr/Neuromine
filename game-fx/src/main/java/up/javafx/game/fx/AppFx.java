@@ -30,17 +30,33 @@ public class AppFx extends Application {
         GameController controller = new GameController(model, view);
         controller.setOnUpdate(() -> view.update(controller.snapshot()));
 
+        view.setOnFlagAction((col, row) -> controller.handleFlag(col, row));
+
         grid.getCell(1, 1).reveal();
         view.update(controller.snapshot());
 
         Scene scene = new Scene(view, 450, 480);
         scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case UP, Z    -> controller.handleMove(Direction.UP);
-                case DOWN, S  -> controller.handleMove(Direction.DOWN);
-                case LEFT, Q  -> controller.handleMove(Direction.LEFT);
-                case RIGHT, D -> controller.handleMove(Direction.RIGHT);
-                default -> {}
+            Position p = controller.snapshot().playerPosition();
+            int px = p.x();
+            int py = p.y();
+
+            if (e.isControlDown()) {
+                switch (e.getCode()) {
+                    case UP, Z    -> controller.handleFlag(px, py - 1);
+                    case DOWN, S  -> controller.handleFlag(px, py + 1);
+                    case LEFT, Q  -> controller.handleFlag(px - 1, py);
+                    case RIGHT, D -> controller.handleFlag(px + 1, py);
+                    default -> {}
+                }
+            } else {
+                switch (e.getCode()) {
+                    case UP, Z    -> controller.handleMove(Direction.UP);
+                    case DOWN, S  -> controller.handleMove(Direction.DOWN);
+                    case LEFT, Q  -> controller.handleMove(Direction.LEFT);
+                    case RIGHT, D -> controller.handleMove(Direction.RIGHT);
+                    default -> {}
+                }
             }
         });
 

@@ -15,6 +15,7 @@ public class MineCell extends Cell {
 
     @Override
     public void onEnter(Player player) {
+        if (isFlagged()) return;
         reveal();
         mine.trigger(player);
     }

@@ -19,6 +19,10 @@ public class GameModel extends Model {
 
     public void move(Direction dir) { engine.movePlayer(dir); }
 
+    public void toggleFlag(int col, int row) {
+        engine.getGrid().getCell(row, col).toggleFlag(); 
+    }
+
     public GameSnapshot snapshot() {
         return new GameSnapshot(
                 engine.getGrid(),
