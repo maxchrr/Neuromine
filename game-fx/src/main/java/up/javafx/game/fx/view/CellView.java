@@ -23,13 +23,19 @@ public class CellView extends StackPane {
             text.setText(cell.isFlagged() ? "F" : "");
         } else {
             rect.setFill(FxRenderer.colorForType(cell.getType()));
-            text.setText(switch (cell.getType()) {
-                case NUMBER  -> String.valueOf(((NumberCell) cell).getAdjacentMines());
-                case MINE    -> "✱";
-                case MONSTER -> "M";
-                case WALL    -> "▪";
-                default      -> "";
-            });
+
+            if (cell.isFlagged()) {
+                text.setText("F");
+                rect.setFill(Color.YELLOW); 
+            } else {
+                text.setText(switch (cell.getType()) {
+                    case NUMBER  -> String.valueOf(((NumberCell) cell).getAdjacentMines());
+                    case MINE    -> "✱";
+                    case MONSTER -> "M";
+                    case WALL    -> "▪";
+                    default      -> "";
+                });
+            }
         }
 
         rect.setStroke(Color.GRAY);

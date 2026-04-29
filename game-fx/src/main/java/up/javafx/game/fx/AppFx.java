@@ -32,7 +32,14 @@ public class AppFx extends Application {
 
         view.setOnFlagAction((col, row) -> controller.handleFlag(col, row));
 
-        grid.getCell(1, 1).reveal();
+        Position startPos = player.getPosition();
+        for (int r = startPos.y() - 1; r <= startPos.y() + 1; r++) {
+            for (int c = startPos.x() - 1; c <= startPos.x() + 1; c++) {
+                if (grid.isInside(r, c)) {
+                    grid.getCell(r, c).reveal();
+                }
+            }
+        }
         view.update(controller.snapshot());
 
         Scene scene = new Scene(view, 450, 480);
