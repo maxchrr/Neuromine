@@ -18,6 +18,7 @@ public class CellView extends StackPane {
 
     private static final Image IMG_FLAG = new Image(CellView.class.getResourceAsStream("/flag.png"));
     private static final Image IMG_MINE = new Image(CellView.class.getResourceAsStream("/mineSpe1.png"));
+    private static final Image IMG_MONSTER = new Image(CellView.class.getResourceAsStream("/sklt.png"));
 
     public CellView(Cell cell, boolean isPlayer) {
         Rectangle rect = new Rectangle(SIZE, SIZE);
@@ -47,6 +48,7 @@ public class CellView extends StackPane {
                 flagView.setFitWidth(30);
                 flagView.setFitHeight(30);
                 getChildren().add(flagView);
+                
             } else if (cell.getType() == CellType.NUMBER) {
                 NumberCell nc = (NumberCell) cell;
                 
@@ -74,19 +76,25 @@ public class CellView extends StackPane {
                 mineView.setFitWidth(30);
                 mineView.setFitHeight(30);
                 getChildren().add(mineView);
+                
+            } else if (cell.getType() == CellType.MONSTER) {
+                EnemyCell ec = (EnemyCell) cell;
+                if (ec.getEnemy().isAlive()) {
+                    ImageView monsterView = new ImageView(IMG_MONSTER);
+                    monsterView.setFitWidth(30);
+                    monsterView.setFitHeight(30);
+                    getChildren().add(monsterView);
+                } else {
+                    Text deadText = new Text("dead");
+                    deadText.setFill(Color.DARKGRAY);
+                    getChildren().add(deadText);
+                }
+                
             } else {
                 Text content = new Text(switch (cell.getType()) {
-                    case MONSTER -> {
-                        EnemyCell ec = (EnemyCell) cell;
-                        yield ec.getEnemy().isAlive() ? "M" : "Dead"; 
-                    }
                     case WALL    -> "▪";
                     default      -> "";
                 });
-                
-                if (cell.getType() == CellType.MONSTER && !((EnemyCell) cell).getEnemy().isAlive()) {
-                    content.setFill(Color.DARKGRAY);
-                }
                 
                 getChildren().add(content);
             }
