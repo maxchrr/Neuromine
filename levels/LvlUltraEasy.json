@@ -1,0 +1,11 @@
+{
+  "name": "Le Donjon pour win",
+  "width": 8,
+  "height": 8,
+  "startX": 1,
+  "startY": 1,
+  "cells": [
+    { "x": 3, "y": 1, "type": "MONSTER" },
+    { "x": 1, "y": 3, "type": "MINE" }
+  ]
+}
