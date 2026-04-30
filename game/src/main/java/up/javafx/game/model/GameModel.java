@@ -19,9 +19,24 @@ public class GameModel extends Model {
 
     public void move(Direction dir) { engine.movePlayer(dir); }
 
-    public void toggleFlag(int col, int row) {
-        engine.getGrid().getCell(row, col).toggleFlag(); 
+    // Dans GameModel.java
+
+public void toggleFlag(int col, int row) {
+    var cell = engine.getGrid().getCell(row, col);
+
+    boolean wasFlagged = cell.isFlagged();
+    boolean isMine = cell.getType() == up.javafx.core.level.cells.CellType.MINE;
+
+    cell.toggleFlag();
+
+    if (!wasFlagged && cell.isFlagged() && isMine) {
+        addScore(10); 
+    } 
+    
+    else if (wasFlagged && !cell.isFlagged() && isMine) {
+        addScore(-10);
     }
+}
 
     public GameSnapshot snapshot() {
         return new GameSnapshot(
