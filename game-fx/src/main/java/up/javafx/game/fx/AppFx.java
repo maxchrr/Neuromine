@@ -24,12 +24,12 @@ import up.javafx.core.level.cells.EnemyCell;
 import up.javafx.core.level.cells.MineCell;
 import up.javafx.core.level.cells.NumberCell;
 import up.javafx.core.level.mine.NormalMine;
+import up.javafx.game.controller.CharacterSelectController;
 import up.javafx.game.controller.GameController;
+import up.javafx.game.controller.LevelSelectController;
 import up.javafx.game.controller.SettingsController;
-import up.javafx.game.fx.view.CharacterSelectController;
 import up.javafx.game.fx.view.CharacterSelectView;
 import up.javafx.game.fx.view.GameFxView;
-import up.javafx.game.fx.view.LevelSelectController;
 import up.javafx.game.fx.view.LevelSelectView;
 import up.javafx.game.model.CharacterSelectModel;
 import up.javafx.game.model.GameModel;
@@ -97,35 +97,59 @@ public class AppFx extends Application {
     }
 
     private void showLevelSelect() {
-        LevelSelectModel model = new LevelSelectModel();
-        LevelSelectView view = new LevelSelectView();
-        LevelSelectController controller = new LevelSelectController(model, view);
+    LevelSelectModel model = new LevelSelectModel();
+    LevelSelectView view = new LevelSelectView();
+    LevelSelectController controller = new LevelSelectController(model, view);
 
-        controller.setGameLauncher(new LevelSelectController.GameLauncher() {
-            @Override
-            public void launchRandom(int size, int mines, int enemies) {
-                showCharacterSelect(size, mines, enemies, null);
+    // Boutons de difficulté standard[cite: 10, 13]
+    view.getBtnEasy().setOnAction(e -> showCharacterSelection(8, 15, 5, null));
+    view.getBtnMedium().setOnAction(e -> showCharacterSelection(10, 30, 10, null));
+    view.getBtnHard().setOnAction(e -> showCharacterSelection(12, 60, 20, null));
+
+    // Bouton pour charger un niveau personnalisé[cite: 10, 13]
+    view.getBtnLoadCustom().setOnAction(e -> {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("Open Custom Level");
+        fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Level Files", "*.json"));
+        
+        java.io.File defaultDirectory = new java.io.File("levels");
+        if (defaultDirectory.exists() && defaultDirectory.isDirectory()) {
+            fileChooser.setInitialDirectory(defaultDirectory);
+        }
+
+        java.io.File file = fileChooser.showOpenDialog(primaryStage);
+        
+        if (file != null) {
+            try {
+                // On charge le niveau via le repository[cite: 10]
+                up.javafx.core.io.Level customLevel = up.javafx.core.io.LevelRepository.load(file.toPath());
+                
+                // Au lieu de launcher.launchCustom, on appelle directement la méthode suivante
+                showCharacterSelection(0, 0, 0, customLevel);
+                
+            } catch (Exception ex) {
+                System.err.println("Erreur de chargement du niveau : " + ex.getMessage());
             }
+        }
+    });
 
-            @Override
-            public void launchCustom(Level customLevel) {
-                showCharacterSelect(0, 0, 0, customLevel);
-            }
-        });
+    view.getBtnBack().setOnAction(e -> showMainMenu());
+    mainScene.setRoot(view);
+}
 
-        view.getBtnBack().setOnAction(e -> showMainMenu());
-        mainScene.setRoot(view.getRootNode());
-    }
-
-    private void showCharacterSelect(int size, int mines, int enemies, Level customLevel) {
+    private void showCharacterSelection(int size, int mines, int enemies, Level customLevel) {
         CharacterSelectModel model = new CharacterSelectModel();
         CharacterSelectView view = new CharacterSelectView();
         CharacterSelectController controller = new CharacterSelectController(model, view);
 
-        controller.setCharacterLauncher((charType) -> showGame(size, mines, enemies, customLevel, charType));
+        // Centralisation des actions de sélection de personnage dans AppFx
+        view.getBtnBandit().setOnAction(e -> showGame(size, mines, enemies, customLevel, CharacterType.BANDIT));
+        view.getBtnDuchess().setOnAction(e -> showGame(size, mines, enemies, customLevel, CharacterType.DUCHESS));
+        view.getBtnKnight().setOnAction(e -> showGame(size, mines, enemies, customLevel, CharacterType.KNIGHT));
+        view.getBtnPaladin().setOnAction(e -> showGame(size, mines, enemies, customLevel, CharacterType.PALADIN));
 
         view.getBtnBack().setOnAction(e -> showLevelSelect());
-        mainScene.setRoot(view.getRootNode());
+        mainScene.setRoot(view);
     }
 
     private void showGame(int size, int mines, int enemies, Level customLevel, CharacterType charType) {

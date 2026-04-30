@@ -9,9 +9,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import up.javafx.mvc.View;
 
-public class CharacterSelectView implements View {
 
-    private final VBox rootNode;
+public class CharacterSelectView extends VBox implements View {
+
     private final Button btnBandit;
     private final Button btnDuchess;
     private final Button btnKnight;
@@ -19,11 +19,12 @@ public class CharacterSelectView implements View {
     private final Button btnBack;
 
     public CharacterSelectView() {
-        this.rootNode = new VBox(30);
-        this.rootNode.setAlignment(Pos.CENTER);
+        super(30); 
+        this.setAlignment(Pos.CENTER);
 
         Text title = new Text("Choose Your Hero");
         title.setFont(Font.font("System", FontWeight.BOLD, 30));
+
         this.btnBandit  = createCharButton("BANDIT\nHP: 10 | ATK: 5");
         this.btnDuchess = createCharButton("DUCHESS\nHP: 4 | ATK: 2");
         this.btnKnight  = createCharButton("KNIGHT\nHP: 4 | ATK: 1");
@@ -38,7 +39,7 @@ public class CharacterSelectView implements View {
         HBox row2 = new HBox(20, btnKnight, btnPaladin);
         row2.setAlignment(Pos.CENTER);
 
-        rootNode.getChildren().addAll(title, row1, row2, btnBack);
+        this.getChildren().addAll(title, row1, row2, btnBack);
     }
 
     private Button createCharButton(String text) {
@@ -48,7 +49,6 @@ public class CharacterSelectView implements View {
         return btn;
     }
 
-    public VBox getRootNode() { return rootNode; }
     public Button getBtnBandit() { return btnBandit; }
     public Button getBtnDuchess() { return btnDuchess; }
     public Button getBtnKnight() { return btnKnight; }
