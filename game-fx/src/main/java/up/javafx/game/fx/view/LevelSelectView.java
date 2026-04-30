@@ -24,9 +24,9 @@ public class LevelSelectView implements View {
         Text title = new Text("Choose Difficulty");
         title.setFont(Font.font("System", FontWeight.BOLD, 30));
 
-        this.btnEasy = new Button("Easy (10x10 | 15 Mines | 5 Monsters)");
-        this.btnMedium = new Button("Medium (15x15 | 30 Mines | 10 Monsters)");
-        this.btnHard = new Button("Hard (20x20 | 60 Mines | 20 Monsters)");
+        this.btnEasy = new Button("Easy (8x8 | 15 Mines | 5 Monsters)");
+        this.btnMedium = new Button("Medium (10x10 | 30 Mines | 10 Monsters)");
+        this.btnHard = new Button("Hard (12x12 | 60 Mines | 20 Monsters)");
         
         this.btnLoadCustom = new Button("Load Custom Level (.json)");
         this.btnLoadCustom.setStyle("-fx-font-weight: bold; -fx-text-fill: #2c3e50;");

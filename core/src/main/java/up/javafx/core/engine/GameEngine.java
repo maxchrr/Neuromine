@@ -69,4 +69,8 @@ public class GameEngine {
     public Grid      getGrid()   { return grid; }
     public Player    getPlayer() { return player; }
     public GameState getState()  { return state; }
+
+    public void setState(GameState state) {
+        this.state = state;
+    }
 }

@@ -7,6 +7,7 @@ import up.javafx.core.level.Direction;
 import up.javafx.core.level.Grid;
 import up.javafx.game.dto.GameSnapshot;
 import up.javafx.mvc.Model;
+import up.javafx.core.level.cells.CellType;
 
 public class GameModel extends Model {
 
@@ -21,22 +22,49 @@ public class GameModel extends Model {
 
     // Dans GameModel.java
 
-public void toggleFlag(int col, int row) {
-    var cell = engine.getGrid().getCell(row, col);
+    public void toggleFlag(int col, int row) {
+        var grid = engine.getGrid(); 
+        var cell = grid.getCell(row, col); 
+        
+        
+        boolean wasFlagged = cell.isFlagged();
+        boolean isMine = cell.getType() == CellType.MINE;
+        
+        cell.toggleFlag(); 
 
-    boolean wasFlagged = cell.isFlagged();
-    boolean isMine = cell.getType() == up.javafx.core.level.cells.CellType.MINE;
+        if (!wasFlagged && cell.isFlagged() && isMine) {
+            addScore(10); 
+        } else if (wasFlagged && !cell.isFlagged() && isMine) {
+            addScore(-10); 
+        }
 
-    cell.toggleFlag();
-
-    if (!wasFlagged && cell.isFlagged() && isMine) {
-        addScore(10); 
-    } 
-    
-    else if (wasFlagged && !cell.isFlagged() && isMine) {
-        addScore(-10);
+        
+        if (checkVictory()) {
+            engine.setState(GameState.VICTORY); 
+        }
     }
-}
+
+    private boolean checkVictory() {
+        var grid = engine.getGrid(); //[cite: 6]
+        int totalMines = 0;
+        int flaggedMines = 0;
+
+        for (int r = 0; r < grid.getRows(); r++) {
+            for (int c = 0; c < grid.getCols(); c++) {
+                var cell = grid.getCell(r, c); //[cite: 6]
+                if (cell.getType() == CellType.MINE) {
+                    totalMines++;
+                    if (cell.isFlagged()) {
+                        flaggedMines++;
+                    }
+                } else if (cell.isFlagged()) {
+                    // Optionnel : Si un drapeau est sur une case vide, ce n'est pas encore une victoire parfaite
+                    return false; 
+                }
+            }
+        }
+        return totalMines > 0 && flaggedMines == totalMines;
+    }
 
     public GameSnapshot snapshot() {
         return new GameSnapshot(

@@ -2,7 +2,6 @@ package up.javafx.game.fx.view;
 
 import up.javafx.core.entity.player.characters.CharacterType;
 import up.javafx.game.model.CharacterSelectModel;
-import up.javafx.game.fx.view.CharacterSelectView;
 import up.javafx.mvc.Controller;
 
 public class CharacterSelectController extends Controller<CharacterSelectModel, CharacterSelectView> {

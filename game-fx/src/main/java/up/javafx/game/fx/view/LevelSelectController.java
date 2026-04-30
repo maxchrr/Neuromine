@@ -5,7 +5,6 @@ import java.io.File;
 import up.javafx.core.io.Level;
 import up.javafx.core.io.LevelRepository;
 import up.javafx.game.model.LevelSelectModel;
-import up.javafx.game.fx.view.LevelSelectView;
 import up.javafx.mvc.Controller;
 
 public class LevelSelectController extends Controller<LevelSelectModel, LevelSelectView> {
@@ -27,9 +26,9 @@ public class LevelSelectController extends Controller<LevelSelectModel, LevelSel
 
     @Override
     protected void init() {
-        view.getBtnEasy().setOnAction(e -> { if (launcher != null) launcher.launchRandom(10, 15, 5); });
-        view.getBtnMedium().setOnAction(e -> { if (launcher != null) launcher.launchRandom(15, 30, 10); });
-        view.getBtnHard().setOnAction(e -> { if (launcher != null) launcher.launchRandom(20, 60, 20); });
+        view.getBtnEasy().setOnAction(e -> { if (launcher != null) launcher.launchRandom(8, 15, 5); });
+        view.getBtnMedium().setOnAction(e -> { if (launcher != null) launcher.launchRandom(10, 30, 10); });
+        view.getBtnHard().setOnAction(e -> { if (launcher != null) launcher.launchRandom(12, 60, 20); });
 
         view.getBtnLoadCustom().setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
