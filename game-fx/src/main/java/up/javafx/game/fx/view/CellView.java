@@ -37,7 +37,10 @@ public class CellView extends StackPane {
         } else if (!cell.isRevealed()) {
             rect.setFill(cell.isFlagged() ? Color.YELLOW : Color.DARKGRAY);
             if (cell.isFlagged()) {
-                getChildren().add(new Text("F"));
+                ImageView flagView = new ImageView(IMG_FLAG);
+                flagView.setFitWidth(30);
+                flagView.setFitHeight(30);
+                getChildren().add(flagView);
             }
             
         } else {

@@ -18,7 +18,10 @@ import up.javafx.core.level.Position;
 import up.javafx.game.controller.GameController;
 import up.javafx.game.controller.SettingsController;
 import up.javafx.game.fx.view.GameFxView;
+import up.javafx.game.fx.view.LevelSelectController;
+import up.javafx.game.fx.view.LevelSelectView;
 import up.javafx.game.model.GameModel;
+import up.javafx.game.model.LevelSelectModel;
 import up.javafx.game.model.SettingsModel;
 
 public class AppFx extends Application {
@@ -42,7 +45,7 @@ public class AppFx extends Application {
 
     private void showMainMenu() {
         MainMenuView menuView = new MainMenuView();
-        menuView.getBtnPlay().setOnAction(e -> showGame());
+        menuView.getBtnPlay().setOnAction(e -> showLevelSelect());
         menuView.getBtnSettings().setOnAction(e -> showSettings());
         menuView.getBtnQuit().setOnAction(e -> Platform.exit());
         mainScene.setRoot(menuView);
@@ -81,8 +84,21 @@ public class AppFx extends Application {
         mainScene.setRoot(view);
     }
 
-    private void showGame() {
-        Grid grid = LevelGenerator.generateLevel(10, 15, 5);
+    private void showLevelSelect() {
+        LevelSelectModel model = new LevelSelectModel();
+        LevelSelectView view = new LevelSelectView();
+        LevelSelectController controller = new LevelSelectController(model, view);
+
+        controller.setGameLauncher((size, mines, enemies) -> showGame(size, mines, enemies));
+
+        view.getBtnBack().setOnAction(e -> showMainMenu());
+
+        mainScene.setRoot(view.getRootNode());
+    }
+
+
+    private void showGame(int size, int mines, int enemies) {
+        Grid grid = LevelGenerator.generateLevel(size, mines, enemies);
         Player player = new Player(
                 new PlayerProfile("Player1"),
                 CharacterFactory.create(CharacterType.PALADIN),
