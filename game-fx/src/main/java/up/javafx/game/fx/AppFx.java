@@ -17,9 +17,12 @@ import up.javafx.core.level.LevelGenerator;
 import up.javafx.core.level.Position;
 import up.javafx.game.controller.GameController;
 import up.javafx.game.controller.SettingsController;
+import up.javafx.game.fx.view.CharacterSelectController;
+import up.javafx.game.fx.view.CharacterSelectView;
 import up.javafx.game.fx.view.GameFxView;
 import up.javafx.game.fx.view.LevelSelectController;
 import up.javafx.game.fx.view.LevelSelectView;
+import up.javafx.game.model.CharacterSelectModel;
 import up.javafx.game.model.GameModel;
 import up.javafx.game.model.LevelSelectModel;
 import up.javafx.game.model.SettingsModel;
@@ -89,19 +92,30 @@ public class AppFx extends Application {
         LevelSelectView view = new LevelSelectView();
         LevelSelectController controller = new LevelSelectController(model, view);
 
-        controller.setGameLauncher((size, mines, enemies) -> showGame(size, mines, enemies));
+        controller.setGameLauncher((size, mines, enemies) -> showCharacterSelect(size, mines, enemies));
 
         view.getBtnBack().setOnAction(e -> showMainMenu());
 
         mainScene.setRoot(view.getRootNode());
     }
 
+    private void showCharacterSelect(int size, int mines, int enemies) {
+        CharacterSelectModel model = new CharacterSelectModel();
+        CharacterSelectView view = new CharacterSelectView();
+        CharacterSelectController controller = new CharacterSelectController(model, view);
 
-    private void showGame(int size, int mines, int enemies) {
+        controller.setCharacterLauncher((charType) -> showGame(size, mines, enemies, charType));
+
+        view.getBtnBack().setOnAction(e -> showLevelSelect());
+
+        mainScene.setRoot(view.getRootNode());
+    }
+
+    private void showGame(int size, int mines, int enemies, CharacterType charType) {
         Grid grid = LevelGenerator.generateLevel(size, mines, enemies);
         Player player = new Player(
                 new PlayerProfile("Player1"),
-                CharacterFactory.create(CharacterType.PALADIN),
+                CharacterFactory.create(charType),
                 new Position(1, 1)
         );
         GameModel model = new GameModel(grid, player);
