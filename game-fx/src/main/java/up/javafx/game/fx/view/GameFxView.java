@@ -1,10 +1,15 @@
 package up.javafx.game.fx.view;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import up.javafx.game.dto.GameSnapshot;
 import up.javafx.mvc.View;
@@ -12,29 +17,51 @@ import java.util.function.BiConsumer;
 
 public class GameFxView extends VBox implements View {
 
-    private final Label     statusLabel = new Label("Chargement…");
-    private final GridPane  gridPane    = new GridPane();
+    private final Label statusLabel = new Label("Chargement…");
+    private final GridPane gridPane = new GridPane();
 
-    private final Button btnBack;
-    private final Button upBtn;
-    private final Button downBtn;
-    private final Button leftBtn;
-    private final Button rightBtn;
+    private final Button btnBack = new Button("Retour menu");
+    private final Button upBtn = new Button("↑");
+    private final Button downBtn = new Button("↓");
+    private final Button leftBtn = new Button("←");
+    private final Button rightBtn = new Button("→");
+
+    
+    private final ToggleButton btnModeAttack = new ToggleButton("Attaque");
+    private final ToggleButton btnModeFlag = new ToggleButton("Drapeau");
 
     private BiConsumer<Integer, Integer> onFlagAction = (c, r) -> {};
 
     public GameFxView() {
-        VBox rootNode = new VBox(15);
-        rootNode.setAlignment(Pos.CENTER);
-        rootNode.setStyle("-fx-padding: 20;");
+        
+        this.setAlignment(Pos.TOP_CENTER); 
+        this.setSpacing(20);
+        this.setPadding(new Insets(15));
 
+       
+        HBox topBar = new HBox(btnBack);
+        topBar.setAlignment(Pos.CENTER_RIGHT);
+        
+        
+        VBox centerArea = new VBox(15);
+        centerArea.setAlignment(Pos.CENTER);
+        gridPane.setAlignment(Pos.CENTER);
+        centerArea.getChildren().addAll(statusLabel, gridPane);
+        
+        
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        this.btnBack = new Button("Retour menu");
-        this.upBtn = new Button("↑");
-        this.downBtn = new Button("↓");
-        this.leftBtn = new Button("←");
-        this.rightBtn = new Button("→");
+        
+        ToggleGroup modeGroup = new ToggleGroup();
+        btnModeAttack.setToggleGroup(modeGroup);
+        btnModeFlag.setToggleGroup(modeGroup);
+        
+        
+        btnModeAttack.setStyle("-fx-text-fill: red;");
+        btnModeFlag.setStyle("-fx-text-fill: blue;");
 
+        
         GridPane controls = new GridPane();
         controls.setAlignment(Pos.CENTER);
         controls.setHgap(10);
@@ -45,12 +72,22 @@ public class GameFxView extends VBox implements View {
         controls.add(downBtn, 1, 1);
         controls.add(rightBtn, 2, 1);
 
+
+        HBox boutons = new HBox(15);
+        boutons.setAlignment(Pos.CENTER);
+        boutons.getChildren().addAll(btnModeAttack, controls, btnModeFlag);
         
-        setSpacing(4);
-        rootNode.getChildren().addAll(statusLabel, gridPane , controls, btnBack);
-    
-        getChildren().add(rootNode);
+        this.getChildren().addAll(topBar, centerArea, spacer, boutons);
     }
+
+    
+    public ToggleButton getBtnModeAttack() { return btnModeAttack; }
+    public ToggleButton getBtnModeFlag() { return btnModeFlag; }
+    public Button getUpBtn() { return upBtn; }
+    public Button getDownBtn() { return downBtn; }
+    public Button getLeftBtn() { return leftBtn; }
+    public Button getRightBtn() { return rightBtn; }
+    public Button getBtnBack() { return btnBack; }
 
     public void setOnFlagAction(BiConsumer<Integer, Integer> action) {
         this.onFlagAction = action;
@@ -66,23 +103,17 @@ public class GameFxView extends VBox implements View {
             for (int c = 0; c < grid.getCols(); c++) {
                 boolean isPlayer = s.playerPosition().x() == c && s.playerPosition().y() == r;
                 CellView cellView = new CellView(grid.getCell(r, c), isPlayer);
-
+                
                 final int col = c;
                 final int row = r;
                 cellView.setOnMouseClicked(event -> {
-                    if (event.getButton() == MouseButton.SECONDARY) {
+                    if (event.getButton() == javafx.scene.input.MouseButton.SECONDARY) {
                         onFlagAction.accept(col, row);
                     }
                 });
-
                 gridPane.add(cellView, c, r);
             }
         }
     }
-
-    public Button getUpBtn() { return upBtn; }
-    public Button getDownBtn() { return downBtn; }
-    public Button getLeftBtn() { return leftBtn; }
-    public Button getRightBtn() { return rightBtn; }
-    public Button getBtnBack() { return btnBack; }
 }
+
