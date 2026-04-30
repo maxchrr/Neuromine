@@ -1,6 +1,7 @@
 package up.javafx.game.fx;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
@@ -43,6 +44,7 @@ public class AppFx extends Application {
         MainMenuView menuView = new MainMenuView();
         menuView.getBtnPlay().setOnAction(e -> showGame());
         menuView.getBtnSettings().setOnAction(e -> showSettings());
+        menuView.getBtnQuit().setOnAction(e -> Platform.exit());
         mainScene.setRoot(menuView);
     }
 
@@ -59,7 +61,7 @@ public class AppFx extends Application {
 
         view.getItem1().setOnAction(e -> controller.updateResolution("1920x1080"));
         view.getItem2().setOnAction(e -> controller.updateResolution("1680x1050"));
-        view.getItem2().setOnAction(e -> controller.updateResolution("1280x720"));
+        view.getItem3().setOnAction(e -> controller.updateResolution("1280x720"));
 
         model.fullscreenProperty().addListener((obs, old, isFull) -> {
             primaryStage.setFullScreen(isFull);
@@ -101,6 +103,14 @@ public class AppFx extends Application {
             }
         }
         view.update(controller.snapshot());
+
+        view.getBtnBack().setOnAction(e -> showMainMenu());
+
+        view.getUpBtn().setOnAction(e -> controller.handleMove(Direction.UP));
+        view.getDownBtn().setOnAction(e -> controller.handleMove(Direction.DOWN));
+        view.getLeftBtn().setOnAction(e -> controller.handleMove(Direction.LEFT));
+        view.getRightBtn().setOnAction(e -> controller.handleMove(Direction.RIGHT));
+
 
         mainScene.setOnKeyPressed(e -> {
             Position p = controller.snapshot().playerPosition();
