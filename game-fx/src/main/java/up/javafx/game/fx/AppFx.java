@@ -33,7 +33,7 @@ public class AppFx extends Application {
     public void start(Stage stage) {
         this.primaryStage = stage;
 
-        this.mainScene = new Scene(new Pane(), 1270, 720);
+        this.mainScene = new Scene(new Pane(), 1280, 720);
 
         stage.setTitle("Neuromine");
         stage.setScene(mainScene);
@@ -168,21 +168,16 @@ public class AppFx extends Application {
     }
 
     private void handlePlayerAction(GameFxView view, GameController controller, Direction dir) {
-            // On récupère la position actuelle du joueur via le snapshot[cite: 7]
             var pos = controller.snapshot().playerPosition();
             
-            // On calcule les coordonnées de la case visée en utilisant dx et dy
             int targetX = pos.x() + dir.dx;
             int targetY = pos.y() + dir.dy;
 
             if (view.getBtnModeAttack().isSelected()) {
-                // Appelle la méthode d'attaque du contrôleur[cite: 5]
                 controller.handleAttack(targetX, targetY);
             } else if (view.getBtnModeFlag().isSelected()) {
-                // Appelle la méthode pour poser/retirer un drapeau[cite: 5]
                 controller.handleFlag(targetX, targetY);
             } else {
-                // Sinon, déplacement normal du joueur[cite: 5]
                 controller.handleMove(dir);
             }
         }

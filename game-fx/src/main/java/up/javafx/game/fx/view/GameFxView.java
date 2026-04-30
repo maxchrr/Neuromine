@@ -8,8 +8,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import up.javafx.game.dto.GameSnapshot;
 import up.javafx.mvc.View;
@@ -48,11 +46,6 @@ public class GameFxView extends VBox implements View {
         gridPane.setAlignment(Pos.CENTER);
         centerArea.getChildren().addAll(statusLabel, gridPane);
         
-        
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-
-        
         ToggleGroup modeGroup = new ToggleGroup();
         btnModeAttack.setToggleGroup(modeGroup);
         btnModeFlag.setToggleGroup(modeGroup);
@@ -74,10 +67,10 @@ public class GameFxView extends VBox implements View {
 
 
         HBox boutons = new HBox(15);
-        boutons.setAlignment(Pos.CENTER);
+        boutons.setAlignment(Pos.TOP_CENTER);
         boutons.getChildren().addAll(btnModeAttack, controls, btnModeFlag);
         
-        this.getChildren().addAll(topBar, centerArea, spacer, boutons);
+        this.getChildren().addAll(topBar, centerArea, boutons);
     }
 
     
