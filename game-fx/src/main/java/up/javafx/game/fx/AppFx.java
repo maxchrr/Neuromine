@@ -7,14 +7,23 @@ import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 import up.javafx.game.fx.view.SettingsView;
 import up.javafx.game.fx.view.MainMenuView;
+import up.javafx.core.entity.enemy.SkeletonEnemy;
 import up.javafx.core.entity.player.Player;
 import up.javafx.core.entity.player.PlayerProfile;
 import up.javafx.core.entity.player.characters.CharacterFactory;
 import up.javafx.core.entity.player.characters.CharacterType;
+import up.javafx.core.io.CellDescriptor;
+import up.javafx.core.io.Level;
 import up.javafx.core.level.Direction;
 import up.javafx.core.level.Grid;
 import up.javafx.core.level.LevelGenerator;
 import up.javafx.core.level.Position;
+import up.javafx.core.level.cells.Cell;
+import up.javafx.core.level.cells.EmptyCell;
+import up.javafx.core.level.cells.EnemyCell;
+import up.javafx.core.level.cells.MineCell;
+import up.javafx.core.level.cells.NumberCell;
+import up.javafx.core.level.mine.NormalMine;
 import up.javafx.game.controller.GameController;
 import up.javafx.game.controller.SettingsController;
 import up.javafx.game.fx.view.CharacterSelectController;
@@ -92,41 +101,96 @@ public class AppFx extends Application {
         LevelSelectView view = new LevelSelectView();
         LevelSelectController controller = new LevelSelectController(model, view);
 
-        controller.setGameLauncher((size, mines, enemies) -> showCharacterSelect(size, mines, enemies));
+        controller.setGameLauncher(new LevelSelectController.GameLauncher() {
+            @Override
+            public void launchRandom(int size, int mines, int enemies) {
+                showCharacterSelect(size, mines, enemies, null);
+            }
+
+            @Override
+            public void launchCustom(Level customLevel) {
+                showCharacterSelect(0, 0, 0, customLevel);
+            }
+        });
 
         view.getBtnBack().setOnAction(e -> showMainMenu());
-
         mainScene.setRoot(view.getRootNode());
     }
 
-    private void showCharacterSelect(int size, int mines, int enemies) {
+    private void showCharacterSelect(int size, int mines, int enemies, Level customLevel) {
         CharacterSelectModel model = new CharacterSelectModel();
         CharacterSelectView view = new CharacterSelectView();
         CharacterSelectController controller = new CharacterSelectController(model, view);
 
-        controller.setCharacterLauncher((charType) -> showGame(size, mines, enemies, charType));
+        controller.setCharacterLauncher((charType) -> showGame(size, mines, enemies, customLevel, charType));
 
         view.getBtnBack().setOnAction(e -> showLevelSelect());
-
         mainScene.setRoot(view.getRootNode());
     }
 
-    private void showGame(int size, int mines, int enemies, CharacterType charType) {
-        Grid grid = LevelGenerator.generateLevel(size, mines, enemies);
+    private void showGame(int size, int mines, int enemies, Level customLevel, CharacterType charType) {
+        
+        Grid grid;
+        Position startPos;
+
+        if (customLevel != null) {
+            System.out.println("Lancement du niveau custom : " + customLevel.name());
+            
+            grid = new Grid(customLevel.height(), customLevel.width());
+            startPos = new Position(customLevel.startX(), customLevel.startY());
+            
+            for (int r = 0; r < customLevel.height(); r++) {
+                for (int c = 0; c < customLevel.width(); c++) {
+                    grid.setCell(r, c, new EmptyCell(new Position(c, r)));
+                }
+            }
+            
+            for (CellDescriptor desc : customLevel.cells()) {
+                int r = desc.y();
+                int c = desc.x();
+                Position pos = new Position(c, r);
+                
+                switch (desc.type()) {
+                    case MINE    -> grid.setCell(r, c, new MineCell(pos, new NormalMine()));
+                    case MONSTER -> grid.setCell(r, c, new EnemyCell(pos, new SkeletonEnemy(pos)));
+                    default      -> {}
+                }
+            }
+
+            for (int r = 0; r < customLevel.height(); r++) {
+                for (int c = 0; c < customLevel.width(); c++) {
+                    Cell cell = grid.getCell(r, c);
+                    if (cell instanceof MineCell || cell instanceof EnemyCell) continue;
+
+                    int mineCount = countMinesAround(grid,r,c);
+                    int monsterCount = countMonstersAround(grid,r,c);
+
+                    if (mineCount > 0 || monsterCount > 0) {
+                        grid.setCell(r, c, new NumberCell(new Position(c, r), mineCount, monsterCount));
+                    }
+                }
+            }
+
+        } else {
+            grid = LevelGenerator.generateLevel(size, mines, enemies); 
+            startPos = new Position(1, 1);
+        }
+        
         Player player = new Player(
                 new PlayerProfile("Player1"),
                 CharacterFactory.create(charType),
-                new Position(1, 1)
+                startPos
         );
+        
         GameModel model = new GameModel(grid, player);
 
         GameFxView view = new GameFxView();
         GameController controller = new GameController(model, view);
         controller.setOnUpdate(() -> view.update(controller.snapshot()));
 
-        Position startPos = player.getPosition();
-        for (int r = startPos.y() - 1; r <= startPos.y() + 1; r++) {
-            for (int c = startPos.x() - 1; c <= startPos.x() + 1; c++) {
+        Position playerPos = player.getPosition();
+        for (int r = playerPos.y() - 1; r <= playerPos.y() + 1; r++) {
+            for (int c = playerPos.x() - 1; c <= playerPos.x() + 1; c++) {
                 if (grid.isInside(r, c)) {
                     grid.getCell(r, c).reveal();
                 }
@@ -195,4 +259,28 @@ public class AppFx extends Application {
                 controller.handleMove(dir);
             }
         }
+
+    private int countMinesAround(Grid grid, int row, int col) {
+        int count = 0;
+        for (int r = row - 1; r <= row + 1; r++) {
+            for (int c = col - 1; c <= col + 1; c++) {
+                if (grid.isInside(r, c) && grid.getCell(r, c) instanceof MineCell) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private int countMonstersAround(Grid grid, int row, int col) {
+        int count = 0;
+        for (int r = row - 1; r <= row + 1; r++) {
+            for (int c = col - 1; c <= col + 1; c++) {
+                if (grid.isInside(r, c) && grid.getCell(r, c) instanceof EnemyCell) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 }
