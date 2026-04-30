@@ -9,10 +9,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import up.javafx.core.level.cells.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class CellView extends StackPane {
 
     static final int SIZE = 40;
+
+    private static final Image IMG_FLAG = new Image(CellView.class.getResourceAsStream("/flag.png"));
+    private static final Image IMG_MINE = new Image(CellView.class.getResourceAsStream("/mineSpe1.png"));
 
     public CellView(Cell cell, boolean isPlayer) {
         Rectangle rect = new Rectangle(SIZE, SIZE);
@@ -38,7 +43,10 @@ public class CellView extends StackPane {
             rect.setFill(FxRenderer.colorForType(cell.getType()));
             
             if (cell.isFlagged()) {
-                getChildren().add(new Text("F"));
+                ImageView flagView = new ImageView(IMG_FLAG);
+                flagView.setFitWidth(30);
+                flagView.setFitHeight(30);
+                getChildren().add(flagView);
             } else if (cell.getType() == CellType.NUMBER) {
                 NumberCell nc = (NumberCell) cell;
                 
@@ -61,9 +69,13 @@ public class CellView extends StackPane {
                 
                 getChildren().add(hbox);
                 
+            } else if (cell.getType() == CellType.MINE) {
+                ImageView mineView = new ImageView(IMG_MINE);
+                mineView.setFitWidth(30);
+                mineView.setFitHeight(30);
+                getChildren().add(mineView);
             } else {
                 Text content = new Text(switch (cell.getType()) {
-                    case MINE    -> "✱";
                     case MONSTER -> {
                         EnemyCell ec = (EnemyCell) cell;
                         yield ec.getEnemy().isAlive() ? "M" : "Dead"; 

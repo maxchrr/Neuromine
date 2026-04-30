@@ -18,7 +18,7 @@ public class SettingsView extends VBox implements View {
     public SettingsView() {
         setAlignment(javafx.geometry.Pos.CENTER);
         setFillWidth(true);
-        setSpacing(10); // Ajout d'un petit espacement
+        setSpacing(10);
 
         this.volSlider = new Slider(0, 100, 50);
         this.btnMute = new Button("Mute");
