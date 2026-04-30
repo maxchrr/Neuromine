@@ -13,6 +13,7 @@ public class MainMenuView extends VBox implements View {
     private final Button btnPlay;
     private final Button btnSettings;
     private final Button btnQuit;
+    private final Button btnHowTo;
 
     public MainMenuView() {
         setSpacing(20);
@@ -30,7 +31,10 @@ public class MainMenuView extends VBox implements View {
         this.btnQuit = new Button("Quit");
         this.btnQuit.setPrefWidth(150);
 
-        getChildren().addAll(title, btnPlay, btnSettings, btnQuit);
+        this.btnHowTo = new Button("How to Play");
+        this.btnHowTo.setPrefWidth(150);
+
+        getChildren().addAll(title, btnPlay, btnSettings,btnHowTo, btnQuit);
     }
 
     public Button getBtnPlay() {
@@ -43,5 +47,9 @@ public class MainMenuView extends VBox implements View {
 
     public Button getBtnQuit() {
         return btnQuit;
+    }
+
+    public Button getBtnHowTo() { 
+        return btnHowTo; 
     }
 }

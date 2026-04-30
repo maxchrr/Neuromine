@@ -35,6 +35,7 @@ import up.javafx.game.model.CharacterSelectModel;
 import up.javafx.game.model.GameModel;
 import up.javafx.game.model.LevelSelectModel;
 import up.javafx.game.model.SettingsModel;
+import up.javafx.game.fx.view.HowToView;
 
 public class AppFx extends Application {
 
@@ -59,6 +60,7 @@ public class AppFx extends Application {
         MainMenuView menuView = new MainMenuView();
         menuView.getBtnPlay().setOnAction(e -> showLevelSelect());
         menuView.getBtnSettings().setOnAction(e -> showSettings());
+        menuView.getBtnHowTo().setOnAction(e -> showHowTo());
         menuView.getBtnQuit().setOnAction(e -> Platform.exit());
         mainScene.setRoot(menuView);
     }
@@ -282,5 +284,13 @@ public class AppFx extends Application {
             }
         }
         return count;
+    }
+
+    private void showHowTo() {
+        HowToView view = new HowToView();
+    
+        view.getBtnBack().setOnAction(e -> showMainMenu());
+    
+        mainScene.setRoot(view.getRootNode());
     }
 }
