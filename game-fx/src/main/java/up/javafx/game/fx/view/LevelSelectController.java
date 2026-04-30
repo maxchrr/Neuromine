@@ -36,6 +36,12 @@ public class LevelSelectController extends Controller<LevelSelectModel, LevelSel
             fileChooser.setTitle("Open Custom Level");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Level Files", "*.json"));
             
+            File defaultDirectory = new File("levels");
+
+            if (defaultDirectory.exists() && defaultDirectory.isDirectory()) {
+                fileChooser.setInitialDirectory(defaultDirectory);
+            }
+
             File file = fileChooser.showOpenDialog(null);
             
             if (file != null) {
